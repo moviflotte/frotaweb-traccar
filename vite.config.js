@@ -4,7 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(() => ({
-  base: "/map",
+  base: "/traccar",
   server: {
     port: 3000,
     proxy: {

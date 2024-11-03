@@ -24,7 +24,7 @@ root.render(
           <AppThemeProvider>
             <CssBaseline />
             <ServerProvider>
-              <BrowserRouter basename="/map">
+              <BrowserRouter basename="/traccar">
                 <Navigation />
               </BrowserRouter>
               <ErrorHandler />
