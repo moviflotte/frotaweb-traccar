@@ -2,6 +2,7 @@
 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 find traccar-web/src -type f -name "*.js" -exec sed -i "s/'text-size': 12,/'text-size': 14,/g" {} +
 find traccar-web/src -type f -name "*.js" -exec sed -i "s/Noto Sans Regular/Noto Sans Bold/g" {} +
+find traccar-web/src/settings -type f -name "SharePage.jsx" -exec sed -i "s|{window.location.origin}|{window.location.origin}/traccar|" {} +
 cp -vr src/* traccar-web/src
 cp -v vite.config.js traccar-web
 
