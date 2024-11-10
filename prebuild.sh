@@ -2,18 +2,17 @@
 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 find traccar-web/src -type f -name "*.js" -exec sed -i ".bak" "s/'text-size': 12,/'text-size': 14,/g" {} +
 
-# Run each sed command and then display the difference with the backup
-sed -i.bak "s/Noto Sans Regular/Noto Sans Bold/g" traccar-web/src/map/core/mapUtil.js
-echo "Diff for mapUtil.js:"
-diff traccar-web/src/map/core/mapUtil.js.bak traccar-web/src/map/core/mapUtil.js
+perl -pi -e 's/Noto Sans Regular/Noto Sans Bold/g' traccar-web/src/map/core/mapUtil.js
+grep "Noto Sans" traccar-web/src/map/core/mapUtil.js
 
-sed -i.bak "s|{window.location.origin}|{window.location.origin}/traccar|" traccar-web/src/settings/SharePage.jsx
-echo "Diff for SharePage.jsx:"
-diff traccar-web/src/settings/SharePage.jsx.bak traccar-web/src/settings/SharePage.jsx
+perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/traccar|g' traccar-web/src/settings/SharePage.jsx
+grep "{window.location.origin}" traccar-web/src/settings/SharePage.jsx
 
-sed -i.bak "s|<BrowserRouter>|<BrowserRouter basename=\"/traccar\">|" traccar-web/src/index.jsx
-echo "Diff for index.jsx:"
-diff traccar-web/src/index.jsx.bak traccar-web/src/index.jsx
+perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-web/src/index.jsx
+grep "BrowserRouter" traccar-web/src/index.jsx
+
+perl -pi -e "s|width: theme.dimensions.drawerWidthDesktop,| maxWidth:theme.dimensions.drawerWidthDesktop,position:'relative !important'|" traccar-web/src/common/components/PageLayout.jsx
+grep "theme.dimensions.drawerWidthDesktop" traccar-web/src/common/components/PageLayout.jsx
 
 
 cp -vr src/* traccar-web/src
