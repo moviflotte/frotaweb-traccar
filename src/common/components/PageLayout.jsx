@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   desktopDrawer: {
-    width: theme.dimensions.drawerWidthDesktop,
+    maxWidth: theme.dimensions.drawerWidthDesktop,
+    position: 'relative !important'
   },
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
@@ -67,7 +67,6 @@ const PageTitle = ({ breadcrumbs }) => {
 const PageLayout = ({ menu, breadcrumbs, children }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
