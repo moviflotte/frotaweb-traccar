@@ -4,7 +4,7 @@ find traccar-web/src -type f -name "*.js" -exec sed -i "s/'text-size': 12,/'text
 sed -i "s/Noto Sans Regular/Noto Sans Bold/g" traccar-web/src/map/core/mapUtil.js
 sed -i "s|{window.location.origin}|{window.location.origin}/traccar|" traccar-web/src/settings/SharePage.jsx
 sed -i "s|<BrowserRouter>|<BrowserRouter basename=\"/traccar\">|" traccar-web/src/index.jsx
-
+sed -i "s|width: theme.dimensions.drawerWidthDesktop,| maxWidth:theme.dimensions.drawerWidthDesktop,position:'relative !important'|" traccar-web/src/common/components/PageLayout.jsx
 
 cp -vr src/* traccar-web/src
 cp -v vite.config.js traccar-web
