@@ -1,6 +1,6 @@
 #!/bin/bash
 git clone --depth 1 https://github.com/jcardus/traccar-web || true
-find traccar-web/src -type f -name "*.js" -exec sed -i ".bak" "s/'text-size': 12,/'text-size': 14,/g" {} +
+find traccar-web/src -type f -name "*.js" -exec sed -i "s/'text-size': 12,/'text-size': 14,/g" {} +
 
 perl -pi -e 's/Noto Sans Regular/Noto Sans Bold/g' traccar-web/src/map/core/mapUtil.js
 grep "Noto Sans" traccar-web/src/map/core/mapUtil.js
