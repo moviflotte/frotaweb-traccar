@@ -179,7 +179,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             handle={`.${classes.media}, .${classes.header}`}
           >
             <Card elevation={3} className={classes.card}>
-              <a target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer">
+              <a target="_blank" href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer">
                 <CardMedia
                   className={classes.media}
                   image={!position || deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
