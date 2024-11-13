@@ -21,11 +21,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import LockIcon from '@mui/icons-material/Lock';
+// import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PendingIcon from '@mui/icons-material/Pending';
 
 import { useTranslation } from './LocalizationProvider';
-import RemoveDialog from './RemoveDialog';
+import ConfirmDialog from './ConfirmDialog';
 import PositionValue from './PositionValue';
 import { useDeviceReadonly } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
@@ -260,7 +261,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   onClick={() => setRemoving(true)}
                   disabled={disableActions || deviceReadonly}
                 >
-                  <DeleteIcon />
+                  <LockIcon />
                 </IconButton>
               </CardActions>
             </Card>
@@ -278,7 +279,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
         </Menu>
       )}
-      <RemoveDialog
+      <ConfirmDialog
         open={removing}
         endpoint="devices"
         itemId={deviceId}
