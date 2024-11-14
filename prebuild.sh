@@ -14,6 +14,9 @@ grep "BrowserRouter" traccar-web/src/index.jsx
 perl -pi -e "s|width: theme.dimensions.drawerWidthDesktop,| maxWidth:theme.dimensions.drawerWidthDesktop,position:'relative !important'|" traccar-web/src/common/components/PageLayout.jsx
 grep "theme.dimensions.drawerWidthDesktop" traccar-web/src/common/components/PageLayout.jsx
 
+perl -MJSON -0777 -i -pe '$_ = encode_json({%{decode_json($_)}, mapOpenFreeMap => "OpenFreeMap"})' traccar-web/src/resources/l10n/pt.json
+perl -MJSON -0777 -i -pe '$_ = encode_json({%{decode_json($_)}, mapOpenFreeMap => "OpenFreeMap"})' traccar-web/src/resources/l10n/pt_BR.json
+
 
 cp -vr src/* traccar-web/src
 cp -v vite.config.js traccar-web
