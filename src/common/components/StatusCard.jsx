@@ -173,119 +173,115 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   }, [navigate, position]);
 
   return (
-    <>
-      <div className={classes.root}>
-        {device && (
-          <Draggable
-            handle={`.${classes.media}, .${classes.header}`}
-          >
-            <Card elevation={3} className={classes.card}>
-              <a target="_blank" href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer">
-                <CardMedia
-                  className={classes.media}
-                  image={!position || deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
-                    : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144`}
-                >
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
+      <>
+        <div className={classes.root}>
+          {device && (
+              <Draggable
+                  handle={`.${classes.media}, .${classes.header}`}
+              >
+                <Card elevation={3} className={classes.card}>
+                  <CardMedia
+                      className={classes.media}
+                      image={!position || deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
+                          : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144`}
                   >
-                    <CloseIcon fontSize="small" className={classes.mediaButton} />
-                  </IconButton>
-                </CardMedia>
-              </a>
-              {!deviceImage && (
-                <div className={classes.header}>
-                  <Typography variant="body2" color="textSecondary">
-                    {device.name}
-                  </Typography>
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </div>
-              )}
-              {position && (
-                <CardContent className={classes.content}>
-                  <Table size="small" classes={{ root: classes.table }}>
-                    <TableBody>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                        <StatusRow
-                          key={key}
-                          name={positionAttributes[key]?.name || key}
-                          content={(
-                            <PositionValue
-                              position={position}
-                              property={position.hasOwnProperty(key) ? key : null}
-                              attribute={position.hasOwnProperty(key) ? null : key}
-                            />
-                          )}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              )}
-              <CardActions classes={{ root: classes.actions }} disableSpacing>
-                <IconButton
-                  color="secondary"
-                  onClick={(e) => setAnchorEl(e.currentTarget)}
-                  disabled={!position}
-                >
-                  <PendingIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate('/replay')}
-                  disabled={disableActions || !position}
-                >
-                  <ReplayIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}/command`)}
-                  disabled={disableActions}
-                >
-                  <PublishIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}`)}
-                  disabled={disableActions || deviceReadonly}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
-                >
-                  <LockIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
-          </Draggable>
+                    <div className={classes.header}>
+                      <Typography style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
+                        {device.name}
+                      </Typography>
+                      <IconButton
+                          size="small"
+                          onClick={onClose}
+                          onTouchStart={onClose}
+                      >
+                        <CloseIcon fontSize="small"/>
+                      </IconButton>
+                    </div>
+
+                    <a target="_blank"
+                       href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
+                       rel="noreferrer">
+                      <div style={{height: '100px', width: '100%'}}></div>
+                    </a>
+
+                  </CardMedia>
+                  {position && (
+                      <CardContent className={classes.content}>
+                        <Table size="small" classes={{root: classes.table}}>
+                          <TableBody>
+                            {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                                <StatusRow
+                                    key={key}
+                                    name={positionAttributes[key]?.name || key}
+                                    content={(
+                                        <PositionValue
+                                            position={position}
+                                            property={position.hasOwnProperty(key) ? key : null}
+                                            attribute={position.hasOwnProperty(key) ? null : key}
+                                        />
+                                    )}
+                                />
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </CardContent>
+                  )}
+                  <CardActions classes={{ root: classes.actions }} disableSpacing>
+                    <IconButton
+                        color="secondary"
+                        onClick={(e) => setAnchorEl(e.currentTarget)}
+                        disabled={!position}
+                    >
+                      <PendingIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => navigate('/replay')}
+                        disabled={disableActions || !position}
+                    >
+                      <ReplayIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => navigate(`/settings/device/${deviceId}/command`)}
+                        disabled={disableActions}
+                    >
+                      <PublishIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => navigate(`/settings/device/${deviceId}`)}
+                        disabled={disableActions || deviceReadonly}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        color="error"
+                        onClick={() => setRemoving(true)}
+                        disabled={disableActions || deviceReadonly}
+                    >
+                      <LockIcon />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Draggable>
+          )}
+        </div>
+        {position && (
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+              <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
+              <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
+              <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
+              <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
+              <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
+              {navigationAppTitle && <MenuItem component="a" target="_blank" href={navigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{navigationAppTitle}</MenuItem>}
+              {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
+            </Menu>
         )}
-      </div>
-      {position && (
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-          <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
-          <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
-          <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
-          <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
-          <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
-          {navigationAppTitle && <MenuItem component="a" target="_blank" href={navigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{navigationAppTitle}</MenuItem>}
-          {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
-        </Menu>
-      )}
-      <ConfirmDialog
-        open={removing}
-        endpoint="devices"
-        itemId={deviceId}
-        onResult={(removed) => handleRemove(removed)}
-      />
-    </>
+        <ConfirmDialog
+            open={removing}
+            endpoint="devices"
+            itemId={deviceId}
+            onResult={(removed) => handleRemove(removed)}
+        />
+      </>
   );
 };
 
