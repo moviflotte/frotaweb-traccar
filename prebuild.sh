@@ -11,6 +11,11 @@ grep "{window.location.origin}" traccar-web/src/settings/SharePage.jsx
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-web/src/index.jsx
 grep "BrowserRouter" traccar-web/src/index.jsx
 
+# Install JSON.pm dynamically if not already available
+if ! perl -MJSON -e 1 2>/dev/null; then
+  cpan install JSON
+fi
+
 perl -MJSON -0777 -i -pe '$_ = encode_json({%{decode_json($_)}, mapOpenFreeMap => "OpenFreeMap"})' traccar-web/src/resources/l10n/pt.json
 perl -MJSON -0777 -i -pe '$_ = encode_json({%{decode_json($_)}, mapOpenFreeMap => "OpenFreeMap"})' traccar-web/src/resources/l10n/pt_BR.json
 
