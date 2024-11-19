@@ -1,7 +1,5 @@
 import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
@@ -22,9 +20,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
 
-  const theme = useTheme();
-  const desktop = useMediaQuery(theme.breakpoints.up('md'));
-  const iconScale = useAttributePreference('iconScale', desktop ? 0.75 : 1);
+  const iconScale = useAttributePreference('iconScale', 1);
 
   const devices = useSelector((state) => state.devices.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -130,24 +126,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-halo-width': 1,
         },
       });
-      map.addLayer({
-        id: `direction-${source}`,
-        type: 'symbol',
-        source,
-        filter: [
-          'all',
-          ['!has', 'point_count'],
-          ['==', 'direction', true],
-        ],
-        layout: {
-          'icon-image': 'direction',
-          'icon-size': iconScale,
-          'icon-allow-overlap': true,
-          'icon-rotate': ['get', 'rotation'],
-          'icon-rotation-alignment': 'map',
-          'text-font': ['Noto Sans Regular']
-        },
-      });
 
       map.on('mouseenter', source, onMouseEnter);
       map.on('mouseleave', source, onMouseLeave);
@@ -189,9 +167,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
 
         if (map.getLayer(source)) {
           map.removeLayer(source);
-        }
-        if (map.getLayer(`direction-${source}`)) {
-          map.removeLayer(`direction-${source}`);
         }
         if (map.getSource(source)) {
           map.removeSource(source);
