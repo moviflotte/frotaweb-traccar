@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "./prebuild.sh",
     "build": "cd traccar-web && npm install && npm run generate-pwa-assets && export VITE_APP_VERSION=$npm_package_version && npm run build",
-    "postbuild": "mkdir -p deploy && mv -v traccar-web/build deploy && mv -v deploy/build deploy/traccar && cp -v deploy/traccar/index.html deploy/traccar/404.html",
+    "postbuild": "./postbuild.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
