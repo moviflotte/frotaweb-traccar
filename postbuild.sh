@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "//force deploy" >> traccar-web/build/sw.js
+echo "/*force deploy*/" >> traccar-web/build/sw.js
 echo "tail traccar-web/build/sw.js:"
 tail traccar-web/build/sw.js
 mkdir -p deploy
