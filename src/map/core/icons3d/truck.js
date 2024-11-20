@@ -155,5 +155,5 @@ export default (degrees, color, palette) => {
     return getSVG(getPath(
         Math.floor(Math.floor(degrees / 22.5) * 22.5),
         palette[color].main, palette[color].main
-    ), 90, 90, '0 0 700 700')
+    ), 60, 60, '0 0 700 700')
 }
