@@ -33,12 +33,13 @@ const useStyles = makeStyles((theme) => ({
   },
   group: {
     maxWidth: 130,
-    fontSize: 11,
     paddingLeft: 4,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     float: 'right',
+    fontWeight: 'bold',
+    color: theme.palette.success.main,
   },
   batteryText: {
     fontSize: '0.75rem',
