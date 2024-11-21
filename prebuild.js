@@ -5,6 +5,7 @@ const path = require('path');
 const files = [
     path.join(__dirname, 'traccar-web/src/resources/l10n/pt.json'),
     path.join(__dirname, 'traccar-web/src/resources/l10n/pt_BR.json'),
+    path.join(__dirname, 'traccar-web/src/resources/l10n/es.json'),
 ];
 
 // Function to update JSON files
