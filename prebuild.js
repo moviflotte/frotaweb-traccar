@@ -21,7 +21,7 @@ files.forEach((file) => {
     const packageJsonPath = './package.json';
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
     const versionParts = packageJson.version.split('.');
-    versionParts[2] = parseInt(versionParts[1], 10) + 1; // Increment the patch version
+    versionParts[1] = parseInt(versionParts[1], 10) + 1; // Increment the patch version
     packageJson.version = versionParts.join('.');
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8');
 
