@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     float: 'right',
     fontWeight: 'bold',
-    color: theme.palette.success.main,
+    color: theme.palette.primary.main,
   },
   batteryText: {
     fontSize: '0.75rem',
