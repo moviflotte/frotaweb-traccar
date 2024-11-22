@@ -183,7 +183,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   <CardMedia
                       className={classes.media}
                       image={!position || deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
-                          : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144`}
+                          : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
                   >
                     <div className={classes.header}>
                       <Typography style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
