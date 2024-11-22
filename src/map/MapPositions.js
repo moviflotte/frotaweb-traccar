@@ -141,7 +141,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         'icon-size': iconScale,
         'text-field': '{point_count_abbreviated}',
         'text-size': 14,
-        'text-font': ['Noto Sans Regular']
+        'text-font': findFonts(map)
       },
     });
 
