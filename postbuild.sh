@@ -2,8 +2,16 @@
 echo "/*$npm_package_version*/" >> traccar-web/build/sw.js
 echo "tail traccar-web/build/sw.js:"
 tail traccar-web/build/sw.js
-mkdir -p deploy
 mv -v traccar-web/build deploy
+
+perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-web/src/index.jsx
+grep "BrowserRouter" traccar-web/src/index.jsx
+cd traccar-web || exit
+npx vite build
+mv -v build ../deploy
+cd ..
 mv -v deploy/build deploy/traccar
-cp -vr deploy/traccar/* deploy
-cp -vv deploy/traccar/index.html deploy/traccar/404.html
+cp -v deploy/traccar/index.html deploy/traccar/404.html
+
+
+
