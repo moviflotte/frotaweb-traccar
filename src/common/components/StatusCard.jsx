@@ -192,7 +192,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   >
                     <div className={classes.header}>
                       <Typography style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
-                        {device.name} {
+                        {device.name}<br/>{
                           Object.values(groups).find(g => g.id === device.groupId)
                           && Object.values(groups).find(g => g.id === device.groupId).name
                         }
