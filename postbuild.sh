@@ -6,6 +6,7 @@ mv -v traccar-web/build deploy
 
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-web/src/index.jsx
 grep "BrowserRouter" traccar-web/src/index.jsx
+cp -v vite.config.js traccar-web
 cd traccar-web || exit
 npx vite build
 mv -v build ../deploy

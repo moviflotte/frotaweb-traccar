@@ -13,7 +13,6 @@ grep "{window.location.origin}" traccar-web/src/settings/SharePage.jsx
 node prebuild.js
 
 cp -vr src/* traccar-web/src
-cp -v vite.config.js traccar-web
 
 if [ -n "${LOGO_URL}" ]; then
   curl "${LOGO_URL}" > traccar-web/public/logo.svg
