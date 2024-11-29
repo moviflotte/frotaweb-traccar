@@ -2,6 +2,9 @@
 GIT_TRACE=1 git clone --depth 1 https://github.com/traccar/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
+perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 35,|g" traccar-web/src/map/MapRoutePoints.js
+perl -pi -e "s|'line-width': 2,|'line-width': 6,|g" traccar-web/src/map/MapRoutePath.js
+
 node prebuild.js
 
 cp -vr src/* traccar-web/src
