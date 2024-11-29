@@ -121,6 +121,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const deviceReadonly = useDeviceReadonly();
 
+  const groups = useSelector((state) => state.groups.items);
+
   const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
   const user = useSelector((state) => state.session.user);
   const device = useSelector((state) => state.devices.items[deviceId]);
@@ -190,7 +192,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   >
                     <div className={classes.header}>
                       <Typography style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
-                        {device.name}
+                        {device.name} {
+                          Object.values(groups).find(g => g.id === device.groupId)
+                          && Object.values(groups).find(g => g.id === device.groupId).name
+                        }
                       </Typography>
                       <IconButton
                           size="small"
