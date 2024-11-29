@@ -12,6 +12,7 @@ grep "BrowserRouter" traccar-web/src/index.jsx
 cp -v vite.config.js traccar-web
 cd traccar-web || exit
 export VITE_APP_VERSION=$npm_package_version && npx vite build
+echo "/*$npm_package_version*/" >> build/sw.js
 mv -v build ../deploy/traccar
 cp -v ../deploy/traccar/index.html ../deploy/traccar/404.html
 
