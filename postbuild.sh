@@ -9,7 +9,7 @@ grep "BrowserRouter" traccar-web/src/index.jsx
 cp -v vite.config.js traccar-web
 cd traccar-web || exit
 npx vite build
-mv -v build ../deploy
+mv -v build ..
 cd ..
 mv -v deploy/build deploy/traccar
 cp -v deploy/traccar/index.html deploy/traccar/404.html
