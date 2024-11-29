@@ -1,5 +1,5 @@
 #!/bin/bash
-git clone --depth 1 https://github.com/traccar/traccar-web || true
+GIT_TRACE=1 git clone --depth 1 https://github.com/traccar/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
 node prebuild.js
