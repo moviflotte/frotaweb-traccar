@@ -1,11 +1,6 @@
 #!/bin/bash
 git clone --depth 1 https://github.com/traccar/traccar-web || true
-find traccar-web/src -type f -name "*.js" -exec sed -i "s/'text-size': 12,/'text-size': 16,/g" {} +
-
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
-
-perl -pi -e 's/Noto Sans Regular/Noto Sans Bold/g' traccar-web/src/map/core/mapUtil.js
-grep "Noto Sans" traccar-web/src/map/core/mapUtil.js
 
 node prebuild.js
 

@@ -12,7 +12,7 @@ export const findFonts = (map) => {
   if (glyphs.startsWith('https://tiles.openfreemap.org')) {
     return ['Noto Sans Bold'];
   }
-  return ['Open Sans Regular', 'Arial Unicode MS Regular'];
+  return ['Open Sans Bold', 'Arial Unicode MS Bold'];
 };
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
