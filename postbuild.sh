@@ -8,6 +8,7 @@ perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-we
 grep "BrowserRouter" traccar-web/src/index.jsx
 cp -v vite.config.js traccar-web
 cd traccar-web || exit
+export VITE_APP_VERSION=$npm_package_version
 npx vite build
 mv -v build ..
 cd ..
