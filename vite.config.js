@@ -10,6 +10,7 @@ export default defineConfig(() => ({
     proxy: {
       '/api/socket': 'ws://gps.rastreosat.com.br',
       '/api': 'http://gps.rastreosat.com.br',
+      '/icons3d': 'https://library.service24gps.com/img/iconUber/iconsDinamicos_new_medidas'
     },
   },
   build: {
@@ -21,7 +22,7 @@ export default defineConfig(() => ({
     VitePWA({
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       workbox: {
-        navigateFallbackDenylist: [/^\/api/, /\/traccar\/sw\.js$/],
+        navigateFallbackDenylist: [/^\/api/, /\/sw\.js$/],
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
       },
