@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
+import palette from './src/common/theme/palette.js';
 
 export default defineConfig(() => ({
   base: "/traccar",
@@ -28,8 +29,9 @@ export default defineConfig(() => ({
       },
       manifest: {
         short_name: '${title}',
-        name: '${description}',
-        theme_color: '${colorPrimary}',
+        name: '${name}',
+        description: '${description}',
+        theme_color: palette(undefined, false).primary.main,
         icons: [
           {
             src: 'pwa-64x64.png',
