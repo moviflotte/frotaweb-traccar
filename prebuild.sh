@@ -13,7 +13,7 @@ if [ -n "${LOGO_LARGE_URL}" ]; then
   curl "${LOGO_LARGE_URL}" > traccar-web/src/resources/images/logo.svg
 fi
 
-FILES=("vite.config.js traccar-web/vite.config.js" "traccar-web/index.html")
+FILES=("vite.config.js" "traccar-web/vite.config.js" "traccar-web/index.html")
 for FILE in "${FILES[@]}"; do
     echo "changing title to $TITLE in $FILE"
     sed -i "s|\${title}|$TITLE|g" "$FILE" || true
