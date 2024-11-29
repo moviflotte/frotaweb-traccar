@@ -7,9 +7,6 @@ curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/ma
 perl -pi -e 's/Noto Sans Regular/Noto Sans Bold/g' traccar-web/src/map/core/mapUtil.js
 grep "Noto Sans" traccar-web/src/map/core/mapUtil.js
 
-perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/traccar|g' traccar-web/src/settings/SharePage.jsx
-grep "{window.location.origin}" traccar-web/src/settings/SharePage.jsx
-
 node prebuild.js
 
 cp -vr src/* traccar-web/src
