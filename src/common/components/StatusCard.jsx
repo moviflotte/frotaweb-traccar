@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     mixBlendMode: 'difference',
   },
   header: {
+    color: 'white',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
