@@ -193,12 +193,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
                   >
                     <div className={classes.header}>
-                      <Typography style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
+                      <div style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
                         {device.name}<br/>{
                           Object.values(groups).find(g => g.id === device.groupId)
                           && Object.values(groups).find(g => g.id === device.groupId).name
                         }
-                      </Typography>
+                      </div>
                       <IconButton
                           size="small"
                           onClick={onClose}
