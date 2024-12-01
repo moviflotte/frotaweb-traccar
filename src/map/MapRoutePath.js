@@ -69,7 +69,7 @@ const MapRoutePath = ({ positions }) => {
             if (map.getLayer(`${id}-line`)) {
                 map.removeLayer(`${id}-line`);
             }
-            if (map.getLayer(`${id}-line`)) {
+            if (map.getLayer(`${id}-line-casing`)) {
                 map.removeLayer(`${id}-line-casing`);
             }
             if (map.getSource(id)) {
