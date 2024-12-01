@@ -1,12 +1,12 @@
 {
   "name": "frotaweb-traccar",
-  "version": "1.99.0",
+  "version": "1.108.0",
   "main": "index.js",
   "scripts": {
     "prebuild": "./prebuild.sh",
     "build": "cd traccar-web && npm install && npm run generate-pwa-assets && export VITE_APP_VERSION=$npm_package_version && npm run build",
     "postbuild": "./postbuild.sh",
-    "rebuild": "rm -rf traccar-web deploy && npm run buildre",
+    "rebuild": "rm -rf traccar-web deploy && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
