@@ -216,7 +216,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
                   </CardMedia>
                   {position && (
-                      <CardContent className={classes.content}>
+                      <CardContent className={classes.content} sx={{padding: 1}}>
                         <Table size="small" classes={{root: classes.table}}>
                           <TableBody>
                             {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
@@ -236,7 +236,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         </Table>
                       </CardContent>
                   )}
-                  <CardActions classes={{ root: classes.actions }} disableSpacing>
+                  <CardActions classes={{ root: classes.actions }} sx={{padding: 0}} disableSpacing>
                     <IconButton
                         color="secondary"
                         onClick={(e) => setAnchorEl(e.currentTarget)}
