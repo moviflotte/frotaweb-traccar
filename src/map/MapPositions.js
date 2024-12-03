@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
@@ -28,6 +29,8 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
 
+  const theme = useTheme();
+
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
     let showDirection;
@@ -49,6 +52,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       fixTime: formatTime(position.fixTime, 'seconds'),
       category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
+      labelColor: theme.palette[getStatusColor(device.status)].main,
       rotation: icons[mapIconKey(device.category)] ? position.course % 22.5 : 0,
       course: position.course,
       direction: showDirection,
@@ -122,6 +126,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'icon-rotate': ['get', 'rotation'],
         },
         paint: {
+          'text-color': ['get', 'labelColor'],
           'text-halo-color': 'white',
           'text-halo-width': 1,
         },
