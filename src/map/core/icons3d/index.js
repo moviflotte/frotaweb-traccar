@@ -22,7 +22,8 @@ export const iconsRemote = {
     pickup: 'pickup_60',
     scooter: 'motoneta_45',
     van: 'furgoneta_ventana_60',
-    trailer: 'remolque_caja_70'
+    trailer: 'remolque_caja_70',
+    trailer2: 'remolque_jaula'
 }
 
 export function getSVG(iconPath, height=60, width=60, viewBox="0 0 50 50") {

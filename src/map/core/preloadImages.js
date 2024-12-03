@@ -49,6 +49,7 @@ export const mapIcons = {
   start: startSvg,
   tractor: tractorSvg,
   trailer: trailerSvg,
+  trailer2: trailerSvg,
   train: trainSvg,
   tram: tramSvg,
   truck: truckSvg,
