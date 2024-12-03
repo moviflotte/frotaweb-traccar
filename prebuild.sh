@@ -5,6 +5,7 @@ curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/ma
 perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 13,|g" traccar-web/src/map/MapRoutePoints.js
 perl -pi -e "s|'text-color':\s*\[\s*'get'\s*,\s*'color'\s*\],| 'text-color': ['get', 'color'],'text-halo-width': 1,'text-halo-color': '#2d5f99',|" traccar-web/src/map/MapRoutePoints.js
 perl -pi -e "s|'line-width': 2,|'line-width': 6,|g" traccar-web/src/map/MapRoutePath.js
+perl -pi -e "s|<ArrowBackIcon />||g" traccar-web/src/common/components/PageLayout.jsx
 
 node prebuild.js
 
