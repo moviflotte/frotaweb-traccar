@@ -128,7 +128,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         paint: {
           'text-color': ['get', 'labelColor'],
           'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-halo-width': 3,
         },
       });
 
