@@ -123,7 +123,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-offset': [0, -2 * iconScale],
           'text-size': 14,
           'text-font': findFonts(map),
-          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-variable-anchor': ['bottom', 'left', 'right', 'top'],
           'icon-rotate': ['get', 'rotation'],
         },
         paint: {
