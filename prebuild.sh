@@ -1,5 +1,5 @@
 #!/bin/bash
-GIT_TRACE=1 git clone --depth 1 https://github.com/traccar/traccar-web || true
+GIT_TRACE=1 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
 perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 13,|g" traccar-web/src/map/MapRoutePoints.js

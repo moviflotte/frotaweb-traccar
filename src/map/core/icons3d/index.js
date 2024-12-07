@@ -37,7 +37,7 @@ export function getSVG(iconPath, height=60, width=60, viewBox="0 0 50 50") {
 const background = loadImage(backgroundSvg)
 
 export default async (e, mapPalette) => {
-    if (!/^[a-z]+-[a-z]+-[0-9.]+$/.test(e.id)) {
+    if (!/^[a-z]+[0-9]?-[a-z]+-[0-9.]+$/.test(e.id)) {
         return;
     }
     if (map.hasImage(e.id)) {
