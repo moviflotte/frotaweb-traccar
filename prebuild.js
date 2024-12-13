@@ -13,6 +13,7 @@ files.forEach((file) => {
         data.mapOpenFreeMap = 'OpenFreeMap'; // Add new key-value pair
         data.categoryTrailer = file.includes('es') ? 'Rampa' : 'Trailer'
         data.categoryTrailer2 = file.includes('es') ? 'Rampa Temperatura' : 'Caçamba'
+        data.attributeForwardUrl = 'Forward URL'
         fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
         console.log(`Updated ${file}`);
     } else {
