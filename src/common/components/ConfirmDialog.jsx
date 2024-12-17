@@ -29,13 +29,15 @@ const ConfirmDialog = ({
         const response = await fetch('/api/commands/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: '',
+            body: JSON.stringify({
+                deviceId: itemId,
+                type: 'engineStop'
+            }),
         });
         if (response.ok) {
             onResult(true);
         } else {
-            throw Error(t('errorTitle'));
-            //throw Error(await response.text());
+            throw Error(await response.text());
         }
     });
 
