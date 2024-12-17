@@ -14,6 +14,7 @@ files.forEach((file) => {
         data.categoryTrailer = file.includes('es') ? 'Rampa' : 'Trailer'
         data.categoryTrailer2 = file.includes('es') ? 'Rampa Temperatura' : 'Caçamba'
         data.attributeForwardUrl = 'Forward URL'
+        data.confirmBlockCommand = file.includes('es') ? 'Está seguro de enviar el comando de bloqueo?' : 'Tem a certeza que pretende bloquear o veículo?'
         fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
         console.log(`Updated ${file}`);
     } else {

@@ -34,7 +34,7 @@ const ConfirmDialog = ({
         if (response.ok) {
             onResult(true);
         } else {
-            throw Error('Erro de configuração');
+            throw Error(t('errorTitle'));
             //throw Error(await response.text());
         }
     });
@@ -45,7 +45,7 @@ const ConfirmDialog = ({
             open={open}
             autoHideDuration={snackBarDurationLongMs}
             onClose={() => onResult(false)}
-            message="Tem a certeza que pretende bloquear o veículo?"
+            message={t('confirmBlockCommand')}
             action={(
                 <Button size="small" className={classes.button} color="error" onClick={handleRemove}>
                     Bloquear
