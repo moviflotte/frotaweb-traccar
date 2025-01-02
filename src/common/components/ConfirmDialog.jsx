@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ConfirmDialog = ({
-                           open, endpoint, itemId, onResult,
+                           open, endpoint, itemId, onResult, blocked
                        }) => {
     const classes = useStyles();
     const t = useTranslation();
@@ -47,10 +47,10 @@ const ConfirmDialog = ({
             open={open}
             autoHideDuration={snackBarDurationLongMs}
             onClose={() => onResult(false)}
-            message={t('confirmBlockCommand')}
+            message={t(blocked?'confirmUnblockCommand':'confirmBlockCommand')}
             action={(
                 <Button size="small" className={classes.button} color="error" onClick={handleRemove}>
-                    Bloquear
+                    {blocked ? 'Desbloquear':'Bloquear'}
                 </Button>
             )}
         />

@@ -22,7 +22,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
 import LockIcon from '@mui/icons-material/Lock';
-// import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PendingIcon from '@mui/icons-material/Pending';
 
 import { useTranslation } from './LocalizationProvider';
@@ -263,11 +263,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                        color="error"
+                        color={position && position.attributes.blocked ? "error" : "primary"}
                         onClick={() => setRemoving(true)}
                         disabled={disableActions || deviceReadonly}
                     >
-                      <LockIcon />
+                      {position && position.attributes.blocked ?
+                      <LockOpenIcon /> :
+                      <LockIcon />}
                     </IconButton>
                   </CardActions>
                 </Card>
@@ -289,6 +291,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             open={removing}
             endpoint="devices"
             itemId={deviceId}
+            blocked={position && position.attributes.blocked}
             onResult={(removed) => handleRemove(removed)}
         />
       </>
