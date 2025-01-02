@@ -22,6 +22,9 @@ import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+
 
 dayjs.extend(relativeTime);
 
@@ -114,6 +117,17 @@ const DeviceRow = ({ data, index, style }) => {
         />
         {position && (
           <>
+            {position.attributes.hasOwnProperty('blocked') && (
+              <Tooltip title={`${t('positionBlocked')}: ${formatBoolean(position.attributes.blocked, t)}`}>
+                <IconButton size="small">
+                  {position.attributes.blocked ? (
+                      <LockIcon width={20} height={20} className={classes.error} />
+                  ) : (
+                      <LockOpenIcon width={20} height={20} className={classes.success} />
+                  )}
+                </IconButton>
+              </Tooltip>
+            )}
             {position.attributes.hasOwnProperty('alarm') && (
               <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
                 <IconButton size="small">
