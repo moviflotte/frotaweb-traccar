@@ -263,13 +263,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                        color={position && position.attributes.blocked ? "error" : "primary"}
+                        color={position && position.attributes.blocked ? "error" : "success"}
                         onClick={() => setRemoving(true)}
                         disabled={disableActions || deviceReadonly}
                     >
                       {position && position.attributes.blocked ?
-                      <LockOpenIcon /> :
-                      <LockIcon />}
+                      <LockIcon /> :
+                      <LockOpenIcon />}
                     </IconButton>
                   </CardActions>
                 </Card>
