@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ConfirmDialog = ({
-                           open, endpoint, itemId, onResult, blocked
+                           open, itemId, onResult, blocked
                        }) => {
     const classes = useStyles();
     const t = useTranslation();
@@ -31,7 +31,7 @@ const ConfirmDialog = ({
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 deviceId: itemId,
-                type: 'engineStop'
+                type: blocked ? 'engineResume' : 'engineStop'
             }),
         });
         if (response.ok) {
