@@ -11,7 +11,12 @@ export default defineConfig(() => ({
     proxy: {
       '/api/socket': 'ws://gps.rastreosat.com.br',
       '/api': 'http://gps.rastreosat.com.br',
-      '/icons3d': 'https://library.service24gps.com/img/iconUber/iconsDinamicos_new_medidas'
+      '/icons3d': {
+        target: 'https://library.service24gps.com',
+        secure: false,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/icons3d/, "img/iconUber/iconsDinamicos_new_medidas"),
+      }
     },
   },
   build: {

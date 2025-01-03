@@ -9,7 +9,6 @@ perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/traccar|g' t
 grep "{window.location.origin}" traccar-web/src/settings/SharePage.jsx
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/traccar">|g' traccar-web/src/index.jsx
 grep "BrowserRouter" traccar-web/src/index.jsx
-cp -v vite.config.js traccar-web
 cd traccar-web || exit
 export VITE_APP_VERSION=$npm_package_version && npx vite build
 echo "/*$npm_package_version*/" >> build/sw.js

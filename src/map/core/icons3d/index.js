@@ -68,8 +68,6 @@ export default async (e, addToMap = true) => {
         map.addImage(e.id, imageCache[e.id], {
             pixelRatio: window.devicePixelRatio,
         })
-    } else {
-        console.log('not adding', e.id, 'style loaded: ', map.getStyle())
     }
     return imageCache[e.id]
 }

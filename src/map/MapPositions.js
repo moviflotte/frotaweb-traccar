@@ -7,6 +7,7 @@ import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
 import {icons} from "./core/icons3d";
+import {iconsRemote} from "../../traccar-web/src/map/core/icons3d";
 
 export const findFonts = (map) => {
   const { glyphs } = map.getStyle();
@@ -54,7 +55,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
       labelColor: theme.palette[getStatusColor(device.status)].main,
       labelHaloColor: device.status === 'online' ? 'black' : 'white',
-      rotation: icons[mapIconKey(device.category)] ? position.course % 22.5 : 0,
+      rotation: icons[mapIconKey(device.category)] || iconsRemote[mapIconKey(device.category)]? position.course % 22.5 : 0,
       course: position.course,
       iconDegrees: position.course - position.course % 22.5,
       direction: showDirection,
