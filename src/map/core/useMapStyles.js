@@ -76,16 +76,6 @@ export default () => {
       available: true,
     },
     {
-      id: 'osm',
-      title: t('mapOsm'),
-      style: styleCustom({
-        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-        maxZoom: 19,
-        attribution: '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }),
-      available: true,
-    },
-    {
       id: 'openTopoMap',
       title: t('mapOpenTopoMap'),
       style: styleCustom({
@@ -103,45 +93,6 @@ export default () => {
         attribution: '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
       }),
       available: true,
-    },
-    {
-      id: 'googleRoad',
-      title: t('mapGoogleRoad'),
-      style: styleCustom({
-        tiles: googleKey
-            ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
-            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
-        maxZoom: 20,
-        attribution: '© Google',
-      }),
-      available: true,
-      attribute: 'googleKey',
-    },
-    {
-      id: 'googleSatellite',
-      title: t('mapGoogleSatellite'),
-      style: styleCustom({
-        tiles: googleKey
-            ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}`]
-            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
-        maxZoom: 20,
-        attribution: '© Google',
-      }),
-      available: true,
-      attribute: 'googleKey',
-    },
-    {
-      id: 'googleHybrid',
-      title: t('mapGoogleHybrid'),
-      style: styleCustom({
-        tiles: googleKey
-            ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`]
-            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
-        maxZoom: 20,
-        attribution: '© Google',
-      }),
-      available: true,
-      attribute: 'googleKey',
     },
     {
       id: 'mapTilerBasic',
@@ -268,12 +219,61 @@ export default () => {
       options
     },
     {
+      id: 'googleRoad',
+      title: t('mapGoogleRoad'),
+      style: styleCustom({
+        tiles: googleKey
+            ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        maxZoom: 20,
+        attribution: '© Google',
+      }),
+      available: true,
+      attribute: 'googleKey',
+    },
+    {
+      id: 'googleSatellite',
+      title: t('mapGoogleSatellite'),
+      style: styleCustom({
+        tiles: googleKey
+            ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}`]
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        maxZoom: 20,
+        attribution: '© Google',
+      }),
+      available: true,
+      attribute: 'googleKey',
+    },
+    {
+      id: 'googleHybrid',
+      title: t('mapGoogleHybrid'),
+      style: styleCustom({
+        tiles: googleKey
+            ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`]
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        maxZoom: 20,
+        attribution: '© Google',
+      }),
+      available: true,
+      attribute: 'googleKey',
+    },
+    {
+      id: 'osm',
+      title: t('mapOsm'),
+      style: styleCustom({
+        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        maxZoom: 19,
+        attribution: '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }),
+      available: true,
+    },
+    {
       id: 'custom',
       title: t('mapCustom'),
       style: !customMapUrl?.includes('{z}') ? customMapUrl : styleCustom({
         tiles: [customMapUrl],
       }),
-      available: Boolean(customMapUrl),
+      available: false,
     },
   ], [t, mapTilerKey, locationIqKey, bingMapsKey, tomTomKey, hereKey, mapboxAccessToken, customMapUrl]);
 };
