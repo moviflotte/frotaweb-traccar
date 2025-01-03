@@ -69,8 +69,8 @@ const path = {
 
 
 
-export default (degrees, color, palette) => {
+export default (degrees, color) => {
     return getSVG(path[Math.floor(Math.floor(degrees / 22.5) * 22.5)](
-        palette[color].main, '#353535', '#FF3637', '#F39C12'
+        color, '#353535', '#FF3637', '#F39C12'
     ))
 }

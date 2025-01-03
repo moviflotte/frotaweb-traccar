@@ -151,9 +151,9 @@ function getPath(degrees,
     return iconCar
 }
 
-export default (degrees, color, palette) => {
+export default (degrees, color) => {
     return getSVG(getPath(
         Math.floor(Math.floor(degrees / 22.5) * 22.5),
-        palette[color].main, palette[color].main
+        color, color
     ), 60, 60, '0 0 700 700')
 }

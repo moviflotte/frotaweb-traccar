@@ -55,6 +55,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       labelColor: theme.palette[getStatusColor(device.status)].main,
       rotation: icons[mapIconKey(device.category)] ? position.course % 22.5 : 0,
       course: position.course,
+      iconDegrees: position.course - position.course % 22.5,
       direction: showDirection,
     };
   };
@@ -114,7 +115,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         source,
         filter: ['!has', 'point_count'],
         layout: {
-          'icon-image': '{category}-{color}-{course}',
+          'icon-image': '{category}-{color}-{iconDegrees}',
           'icon-size': iconScale,
           'icon-allow-overlap': true,
           'text-field': `{${titleField || 'name'}}`,
@@ -123,7 +124,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-offset': [0, -2 * iconScale],
           'text-size': 14,
           'text-font': findFonts(map),
-          'text-variable-anchor': ['bottom', 'left', 'right', 'top'],
           'icon-rotate': ['get', 'rotation'],
         },
         paint: {

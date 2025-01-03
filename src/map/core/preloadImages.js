@@ -27,7 +27,7 @@ import tramSvg from '../../resources/images/icon/tram.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
 import { map } from './MapView.jsx';
-import icons3d from './icons3d'
+import load3dImage from './icons3d'
 
 
 export const mapIcons = {
@@ -64,7 +64,7 @@ const mapPalette = createPalette({
   neutral: { main: grey[500] },
 });
 
-map.on('styleimagemissing', (e) => icons3d(e, mapPalette));
+map.on('styleimagemissing', load3dImage);
 
 export default async () => {
   const background = await loadImage(backgroundSvg);
@@ -79,4 +79,12 @@ export default async () => {
     });
     await Promise.all(results);
   }));
+  for (let i=0; i<360; i+= 22.5) {
+    await Promise.all(['car', 'truck', 'default'].map((icon) => loadId(icon, i)))
+  }
 };
+
+async function loadId(icon, i) {
+  const id = `${icon}-neutral-${i}`
+  mapImages[id] = await load3dImage({id}, false)
+}

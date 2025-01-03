@@ -5,6 +5,7 @@ import {map} from "../MapView.jsx";
 import {mapIcons} from "../preloadImages";
 import backgroundSvg from "../../../resources/images/background.svg";
 const baseUrl = '/icons3d'
+import createPalette from '@mui/material/styles/createPalette';
 
 export const icons = {
     default: car,
@@ -35,32 +36,40 @@ export function getSVG(iconPath, height=60, width=60, viewBox="0 0 50 50") {
 }
 
 const background = loadImage(backgroundSvg)
+const imageCache = {}
 
-export default async (e, mapPalette) => {
+const mapPalette = createPalette({});
+
+export default async (e, addToMap = true) => {
     if (!/^[a-z]+[0-9]?-[a-z]+-[0-9.]+$/.test(e.id)) {
+        console.log('ignoring image', e.id)
         return;
     }
-    if (map.hasImage(e.id)) {
+    if (map.getStyle() && map.hasImage(e.id)) {
         return;
     }
-    const [category, color, rotation] = e.id.split('-')
-
-    let image
-    if (icons[category]) {
-        const svg = icons[category](rotation, color, mapPalette);
-        const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
-        image = await loadImage(URL.createObjectURL(svgBlob)).then(icon =>
-            prepareIcon(icon))
-    } else if (iconsRemote[category]) {
-        image = await loadImage(`${baseUrl}/${iconsRemote[category]}.php?grados=${rotation}&c=${mapPalette[color].main.replace('#','')}`)
-            .then(icon => prepareIcon(icon))
-    } else {
-        image = prepareIcon(await background, await loadImage(mapIcons[category]), mapPalette[color].main)
+    if (!imageCache[e.id]) {
+        const [category, color, rotation] = e.id.split('-')
+        const _color = color === 'neutral' ? '#fff' : mapPalette[color].main
+        if (icons[category]) {
+            const svg = icons[category](rotation, _color, mapPalette);
+            const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+            imageCache[e.id] = await loadImage(URL.createObjectURL(svgBlob)).then(icon =>
+                prepareIcon(icon))
+        } else if (iconsRemote[category]) {
+            imageCache[e.id] = await loadImage(`${baseUrl}/${iconsRemote[category]}.php?grados=${rotation}&c=${_color.replace('#', '')}`)
+                .then(icon => prepareIcon(icon))
+        } else {
+            imageCache[e.id] = prepareIcon(await background, await loadImage(mapIcons[category]), _color)
+        }
     }
 
-    if (!map.hasImage(e.id)) {
-        map.addImage(e.id, image, {
+    if (map.getStyle() && !map.hasImage(e.id) && addToMap) {
+        map.addImage(e.id, imageCache[e.id], {
             pixelRatio: window.devicePixelRatio,
         })
+    } else {
+        console.log('not adding', e.id, 'style loaded: ', map.getStyle())
     }
+    return imageCache[e.id]
 }
