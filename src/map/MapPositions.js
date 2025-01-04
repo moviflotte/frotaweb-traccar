@@ -6,8 +6,7 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
-import {icons} from "./core/icons3d";
-import {iconsRemote} from "../../traccar-web/src/map/core/icons3d";
+import {icons, iconsRemote} from "./core/icons3d";
 
 export const findFonts = (map) => {
   const { glyphs } = map.getStyle();
