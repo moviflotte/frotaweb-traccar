@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 3,
     left: 0,
     top: 0,
-    margin: theme.spacing(1),
+    margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
     [theme.breakpoints.down('md')]: {
       width: '100%',
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    fontSize: 'smaller'
   },
   formControlLabel: {
     height: '100%',
@@ -66,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(1),
     },
