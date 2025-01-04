@@ -53,7 +53,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
       labelColor: showStatus && device.status.endsWith('line') && theme.palette[getStatusColor(device.status)].main,
-      labelHaloColor: showStatus && device.status === 'online' ? 'black' : 'white',
       rotation: icons[mapIconKey(device.category)] || iconsRemote[mapIconKey(device.category)]? position.course % 22.5 : 0,
       course: position.course,
       iconDegrees: position.course - position.course % 22.5,
@@ -129,8 +128,8 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         },
         paint: {
           'text-color': ['get', 'labelColor'],
-          'text-halo-color': ['get', 'labelHaloColor'],
-          'text-halo-width': 1,
+          'text-halo-color': 'white',
+          'text-halo-width': 2,
         },
       });
 
