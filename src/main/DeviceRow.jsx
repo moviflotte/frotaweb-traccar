@@ -24,6 +24,7 @@ import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import WifiIcon from '@mui/icons-material/Wifi';
 
 
 dayjs.extend(relativeTime);
@@ -117,13 +118,24 @@ const DeviceRow = ({ data, index, style }) => {
         />
         {position && (
           <>
+            {position.attributes.hasOwnProperty('approximate') && (
+              <Tooltip title={`${t('positionApproximate')}: ${formatBoolean(position.attributes.approximate, t)}`}>
+                <IconButton size="small">
+                  {position.attributes.approximate ? (
+                      <WifiIcon width={20} height={20} className={classes.success} />
+                  ) : (
+                      <WifiIcon width={20} height={20} className={classes.neutral} />
+                  )}
+                </IconButton>
+              </Tooltip>
+           )}
             {position.attributes.hasOwnProperty('blocked') && (
               <Tooltip title={`${t('positionBlocked')}: ${formatBoolean(position.attributes.blocked, t)}`}>
                 <IconButton size="small">
                   {position.attributes.blocked ? (
                       <LockIcon width={20} height={20} className={classes.error} />
                   ) : (
-                      <LockOpenIcon width={20} height={20} className={classes.success} />
+                      <LockOpenIcon width={20} height={20} className={classes.neutral} />
                   )}
                 </IconButton>
               </Tooltip>
