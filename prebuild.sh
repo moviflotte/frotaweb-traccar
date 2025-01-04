@@ -27,5 +27,3 @@ for FILE in "${FILES[@]}"; do
     sed -i "s|\${description}|$DESCRIPTION|g" "$FILE" || true
 done
 
-cp -v vite.config.js traccar-web
-
