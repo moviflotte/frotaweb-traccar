@@ -67,7 +67,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
+    padding: theme.spacing(0.5),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
       margin: theme.spacing(1),
     },
