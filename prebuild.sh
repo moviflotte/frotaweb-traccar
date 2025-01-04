@@ -21,8 +21,8 @@ fi
 
 FILES=("vite.config.js" "traccar-web/index.html")
 for FILE in "${FILES[@]}"; do
-    echo "changing title to $TITLE in $FILE"
-    sed -i "s|\${title}|$TITLE|g" "$FILE" || true
+    echo "changing title to $TITLE $npm_package_version in $FILE"
+    sed -i "s|\${title}|$TITLE $npm_package_version|g" "$FILE" || true
     sed -i "s|\${name}|$NAME|g" "$FILE" || true
     sed -i "s|\${description}|$DESCRIPTION|g" "$FILE" || true
 done
