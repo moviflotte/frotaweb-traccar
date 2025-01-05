@@ -26,6 +26,7 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import MapScale from '../map/MapScale';
+import {reducePositions} from "../common/util/positions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,7 +143,7 @@ const ReplayPage = () => {
     if (response.ok) {
       setIndex(0);
       const positions = await response.json();
-      setPositions(positions);
+      setPositions(positions.reduce(reducePositions, []));
       if (positions.length) {
         setExpanded(false);
       } else {
