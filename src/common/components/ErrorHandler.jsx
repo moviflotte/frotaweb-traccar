@@ -18,7 +18,7 @@ const ErrorHandler = () => {
         severity="error"
         variant="filled"
       >
-        {message && message.substring(0, 2000)}
+        {message && message.substring(0, 200)}
       </Alert>
     </Snackbar>
   );
