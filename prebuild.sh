@@ -2,10 +2,10 @@
 GIT_TRACE=1 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
-perl -pi -e "s|'text-field': '▲',|'text-field': '↑','text-size': 20,|g" traccar-web/src/map/MapRoutePoints.js
-perl -pi -e "s|'text-color':\s*\[\s*'get'\s*,\s*'color'\s*\],| 'text-color': 'white', 'text-opacity': 0.9, 'text-halo-width': 1,'text-halo-color': 'black',|" traccar-web/src/map/MapRoutePoints.js
-perl -pi -e "s|'text-allow-overlap': true|'text-allow-overlap': false|" traccar-web/src/map/MapRoutePoints.js
-perl -pi -e "s|'line-width': 2,|'line-width': 6,|g" traccar-web/src/map/MapRoutePath.js
+#perl -pi -e "s|'text-field': '▲',|'text-field': '↑','text-size': 20,|g" traccar-web/src/map/MapRoutePoints.js
+#perl -pi -e "s|'text-color':\s*\[\s*'get'\s*,\s*'color'\s*\],| 'text-color': 'white', 'text-opacity': 0.9, 'text-halo-width': 1,'text-halo-color': 'black',|" traccar-web/src/map/MapRoutePoints.js
+#perl -pi -e "s|'text-allow-overlap': true|'text-allow-overlap': false|" traccar-web/src/map/MapRoutePoints.js
+#perl -pi -e "s|'line-width': 2,|'line-width': 6,|g" traccar-web/src/map/MapRoutePath.js
 perl -pi -e "s|<ArrowBackIcon />||g" traccar-web/src/common/components/PageLayout.jsx
 
 node prebuild.js
