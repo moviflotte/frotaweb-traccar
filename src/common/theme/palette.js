@@ -15,7 +15,8 @@ const tailWindGray = {
       900: '#111827',
 }
 
-const primary = { 50: '#FFF5F2', 100: '#FFF1EE', 200: '#FFE4DE', 300: '#FFD5CC', 400: '#FFBCAD', 500: '#FE795D', 600: '#EF562F', 700: '#EB4F27', 800: '#CC4522', 900: '#A5371B' }
+const primary = { 50: '#FFF5F2', 100: '#FFF1EE', 200: '#FFE4DE', 300: '#FFD5CC', 400: '#FFBCAD',
+    500: '#FE795D', 600: '#EF562F', 700: '#EB4F27', 800: '#CC4522', 900: '#A5371B' }
 
 
 export default (server, darkMode) => ({
@@ -32,6 +33,7 @@ export default (server, darkMode) => ({
   },
   neutral: {
     main: grey[500],
+    icon3d: primary[400]
   },
   geometry: {
     main: '#3bb2d0',
