@@ -18,6 +18,7 @@ export const iconsRemote = {
     bus: 'bus_85',
     bicycle: 'bici_40',
     boat: 'barco',
+    crane: 'grua_60',
     motorcycle: 'moto_50',
     offroad: 'quadbike_45',
     pickup: 'pickup_60',
