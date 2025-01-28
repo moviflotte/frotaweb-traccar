@@ -12,6 +12,7 @@ export default [
   'person',
   'plane',
   'ship',
+  'shoppingbag',
   'tractor',
   'trailer',
   'trailer2',

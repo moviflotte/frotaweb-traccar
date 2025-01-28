@@ -19,6 +19,7 @@ import planeSvg from '../../resources/images/icon/plane.svg';
 import scooterSvg from '../../resources/images/icon/scooter.svg';
 import shipSvg from '../../resources/images/icon/ship.svg';
 import startSvg from '../../resources/images/icon/start.svg';
+import shoppingBagIconSvg from '../../resources/images/icon/shoppingbag.svg';
 import finishSvg from '../../resources/images/icon/finish.svg';
 import tractorSvg from '../../resources/images/icon/tractor.svg';
 import trainSvg from '../../resources/images/icon/train.svg';
@@ -45,6 +46,7 @@ export const mapIcons = {
   person: personSvg,
   plane: planeSvg,
   scooter: scooterSvg,
+  shoppingbag: shoppingBagIconSvg,
   ship: shipSvg,
   start: startSvg,
   tractor: tractorSvg,
