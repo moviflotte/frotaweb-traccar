@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     pointerEvents: 'auto',
     zIndex: 6,
+    borderRadius: '10px 10px 0 0',
   },
   footer: {
     pointerEvents: 'auto',
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
+    borderRadius: '0 0 10px 10px',
   },
 }));
 
