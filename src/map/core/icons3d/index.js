@@ -58,7 +58,8 @@ export default async (e, addToMap = true) => {
             imageCache[e.id] = await loadImage(URL.createObjectURL(svgBlob)).then(icon =>
                 prepareIcon(icon))
         } else if (iconsRemote[category]) {
-            imageCache[e.id] = await loadImage(`${baseUrl}/${iconsRemote[category]}.php?grados=${rotation}&c=${_color.replace('#', '')}`)
+            const c = _color.replace('#', '')
+            imageCache[e.id] = await loadImage(`${baseUrl}/${iconsRemote[category]}.php?grados=${rotation}&a=${c}&b=${c}&c=${c}`)
                 .then(icon => prepareIcon(icon))
         } else {
             imageCache[e.id] = prepareIcon(await background, await loadImage(mapIcons[category]), _color)
