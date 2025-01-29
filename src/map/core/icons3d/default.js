@@ -67,10 +67,16 @@ const path = {
 
 };
 
-
+const darkenColor = (hex, percent) => {
+    let num = parseInt(hex.replace("#", ""), 16);
+    let r = Math.floor((num >> 16) * (1 - percent));
+    let g = Math.floor(((num >> 8) & 0x00FF) * (1 - percent));
+    let b = Math.floor((num & 0x0000FF) * (1 - percent));
+    return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+};
 
 export default (degrees, color) => {
     return getSVG(path[Math.floor(Math.floor(degrees / 22.5) * 22.5)](
-        color, '#353535', '#FF3637', '#F39C12'
+        color, darkenColor(color, 0.6), '#FF3637', '#F39C12'
     ))
 }

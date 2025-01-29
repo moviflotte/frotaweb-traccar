@@ -154,6 +154,6 @@ function getPath(degrees,
 export default (degrees, color) => {
     return getSVG(getPath(
         Math.floor(Math.floor(degrees / 22.5) * 22.5),
-        color, color
+        undefined, color
     ), 60, 60, '0 0 700 700')
 }
