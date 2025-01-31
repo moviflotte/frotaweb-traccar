@@ -51,7 +51,7 @@ export default async (e, addToMap = true) => {
     }
     if (!imageCache[e.id]) {
         const [category, color, rotation] = e.id.split('-')
-        const _color = color === 'neutral' ? '#FFD5CC' : mapPalette[color].main
+        const _color = color === 'neutral' ? '#FE795D' : mapPalette[color].main
         if (icons[category]) {
             const svg = icons[category](rotation, _color, mapPalette);
             const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
