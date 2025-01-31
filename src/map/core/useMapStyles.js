@@ -232,6 +232,19 @@ export default () => {
       attribute: 'googleKey',
     },
     {
+      id: 'googleTraffic',
+      title: t('mapGoogleTraffic'),
+      style: styleCustom({
+        tiles: googleKey
+            ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m,traffic&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        maxZoom: 20,
+        attribution: '© Google',
+      }),
+      available: true,
+      attribute: 'googleKey',
+    },
+    {
       id: 'googleSatellite',
       title: t('mapGoogleSatellite'),
       style: styleCustom({
