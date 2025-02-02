@@ -70,11 +70,10 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     '& .MuiTableCell-sizeSmall': {
-      paddingLeft: 0,
-      paddingRight: 0,
+      padding: 0
     },
     '& .MuiTableCell-sizeSmall:first-child': {
-      paddingRight: theme.spacing(1),
+      paddingRight: theme.spacing(0.5),
     },
   },
   cell: {
