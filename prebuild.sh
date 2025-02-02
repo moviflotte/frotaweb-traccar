@@ -7,6 +7,7 @@ perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 20,|g" trac
 #perl -pi -e "s|'text-allow-overlap': true|'text-allow-overlap': false|" traccar-web/src/map/MapRoutePoints.js
 perl -pi -e "s|'line-width': 2,|'line-width': 3,|g" traccar-web/src/map/MapRoutePath.js
 perl -pi -e "s|<ArrowBackIcon />||g" traccar-web/src/common/components/PageLayout.jsx
+perl -pi -e 's|"start": "vite"|"start": "vite --host"|g' traccar-web/package.json
 
 node prebuild.js
 
@@ -21,6 +22,7 @@ fi
 
 FILES=("vite.config.js" "traccar-web/vite.config.js" "traccar-web/index.html")
 for FILE in "${FILES[@]}"; do
+    # shellcheck disable=SC2154
     echo "changing title to $TITLE $npm_package_version in $FILE"
     echo "changing description to $DESCRIPTION in $FILE"
     sed -i "s|\${title}|$TITLE $npm_package_version|g" "$FILE" || true
