@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Draggable from 'react-draggable';
@@ -178,6 +178,16 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     }
   }, [navigate, position]);
 
+  const [streetView, setStreetView] = useState(false)
+
+  useEffect(() => {
+    if (position) {
+      fetch(`https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`)
+          .then(response => (setStreetView(response.ok)))
+    }
+  }, [position]);
+
+
   return (
       <>
         <div className={classes.root}>
@@ -186,9 +196,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   handle={`.${classes.media}, .${classes.header}`}
               >
                 <Card elevation={3} className={classes.card}>
-                  <CardMedia
+                  {(deviceImage || (position && streetView)) ? (<CardMedia
                       className={classes.media}
-                      image={!position || deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
+                      image={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
                           : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
                   >
                     <div className={classes.header}>
@@ -213,7 +223,20 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       <div style={{height: '100px', width: '100%'}}></div>
                     </a>
 
-                  </CardMedia>
+                  </CardMedia>) : (
+                      <div className={classes.header}>
+                        <Typography variant="body2" color="textSecondary">
+                          {device.name}
+                        </Typography>
+                        <IconButton
+                            size="small"
+                            onClick={onClose}
+                            onTouchStart={onClose}
+                        >
+                          <CloseIcon fontSize="small"/>
+                        </IconButton>
+                      </div>
+                  )}
                   {position && (
                       <CardContent className={classes.content} sx={{padding: 1}}>
                         <Table size="small" classes={{root: classes.table}}>

@@ -76,7 +76,8 @@ const darkenColor = (hex, percent) => {
 };
 
 export default (degrees, color) => {
-    return getSVG(path[Math.floor(Math.floor(degrees / 22.5) * 22.5)](
+    const _degrees = Math.floor(Math.floor(degrees / 22.5) * 22.5) % 360
+    return getSVG(path[_degrees](
         color, darkenColor(color, 0.6), '#FF3637', '#F39C12'
     ))
 }
