@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
-    borderRadius: '0 0 10px 10px',
   },
 }));
 
