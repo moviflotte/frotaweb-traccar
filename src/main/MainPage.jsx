@@ -70,7 +70,7 @@ const MainPage = () => {
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const mapOnSelect = useAttributePreference('mapOnSelect', true);
+  const mapOnSelect = true;
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.session.positions);
