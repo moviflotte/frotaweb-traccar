@@ -8,6 +8,7 @@ perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 20,|g" trac
 perl -pi -e "s|'line-width': 2,|'line-width': 3,|g" traccar-web/src/map/MapRoutePath.js
 perl -pi -e "s|<ArrowBackIcon />||g" traccar-web/src/common/components/PageLayout.jsx
 perl -pi -e 's|"start": "vite"|"start": "vite --host"|g' traccar-web/package.json
+perl -pi -e 's|itemSize={72|itemSize={60|' traccar-web/src/main/DeviceList.jsx
 
 node prebuild.js
 
