@@ -20,6 +20,8 @@ files.forEach((file) => {
         data.confirmUnblockCommand = file.endsWith('es.json') ? 'Está seguro de enviar el comando de desbloqueo?' : 'Tem a certeza que pretende desbloquear o veículo?'
         data.mapMapboxStreetsLight = 'Mapbox Streets Light'
         data.mapGoogleTraffic = 'Google Trânsito'
+        data.reportStartEngineHours = file.endsWith('es.json') ? 'Horas del motor al inicio' : 'Horas de motor no início'
+        data.reportEndEngineHours = file.endsWith('es.json') ? 'Horas del motor al final' : 'Horas de motor no final'
         fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
         console.log(`Updated ${file}`);
     } else {
