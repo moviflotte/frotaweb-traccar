@@ -7,7 +7,6 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceList from './DeviceList';
-import BottomMenu from '../common/components/BottomMenu';
 import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
@@ -59,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
-    borderRadius: '0 0 10px 10px',
   },
 }));
 
@@ -139,11 +137,6 @@ const MainPage = () => {
             <DeviceList devices={filteredDevices} />
           </Paper>
         </div>
-        {false && (
-          <div className={classes.footer}>
-            <BottomMenu />
-          </div>
-        )}
       </div>
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
       {selectedDeviceId && (

@@ -84,7 +84,7 @@ const App = () => {
   }
   return (
     <>
-      <SocketController />
+      {!location.pathname.includes('/reports') && <SocketController />}
       <CachingController />
       <UpdateController />
       <div className={classes.page}>

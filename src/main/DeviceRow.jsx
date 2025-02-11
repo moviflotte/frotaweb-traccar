@@ -36,12 +36,7 @@ const useStyles = makeStyles((theme) => ({
     filter: 'brightness(0) invert(1)',
   },
   group: {
-    maxWidth: 130,
-    paddingLeft: 4,
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    float: 'right',
+    paddingLeft: 8,
     fontWeight: 'bold',
     color: theme.palette.primary.main,
   },
