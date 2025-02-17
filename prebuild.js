@@ -11,6 +11,7 @@ files.forEach((file) => {
     if (fs.existsSync(file)) {
         const data = JSON.parse(fs.readFileSync(file, 'utf8'));
         data.mapOpenFreeMap = 'OpenFreeMap'; // Add new key-value pair
+        data.categoryPickup = file.endsWith('es.json') ? 'Camioneta' : 'Pickup'
         data.categoryShoppingbag = 'Mala'
         data.categoryTrailer = file.endsWith('es.json') ? 'Rampa Temperatura' : 'Trailer'
         data.categoryTrailer2 = file.endsWith('es.json') ? 'Rampa' : 'Caçamba'
