@@ -15,6 +15,7 @@ files.forEach((file) => {
         data.categoryShoppingbag = 'Mala'
         data.categoryTrailer = file.endsWith('es.json') ? 'Rampa Temperatura' : 'Trailer'
         data.categoryTrailer2 = file.endsWith('es.json') ? 'Rampa' : 'Caçamba'
+        data.commandPositionSingle = file.endsWith('es.json') ? 'Actualizar Posición' : 'Actualizar Posição'
         data.attributeForwardUrl = 'Forward URL'
         data.positionFixTime = 'Hora GPS'
         data.confirmBlockCommand = file.endsWith('es.json') ? 'Está seguro de enviar el comando de bloqueo?' : 'Tem a certeza que pretende bloquear o veículo?'
