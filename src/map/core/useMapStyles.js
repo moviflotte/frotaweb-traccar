@@ -31,7 +31,7 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
 export default () => {
   const t = useTranslation();
 
-  const googleKey = useAttributePreference('googleKey');
+  const googleKey = window.location.hostname.includes('moviflotte.com');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey') || 'pk.0f147952a41c555a5b70614039fd148b';
   const bingMapsKey = useAttributePreference('bingMapsKey');
@@ -223,7 +223,7 @@ export default () => {
       title: t('mapGoogleRoad'),
       style: styleCustom({
         tiles: googleKey
-            ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
+            ? [`https://d831cxdfrpk69.cloudfront.net/?x={x}&y={y}&z={z}&type=roads`]
             : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
         attribution: '© Google',
@@ -262,7 +262,7 @@ export default () => {
       title: t('mapGoogleHybrid'),
       style: styleCustom({
         tiles: googleKey
-            ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`]
+            ? [`https://d831cxdfrpk69.cloudfront.net/?x={x}&y={y}&z={z}&type=satellite`]
             : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
         attribution: '© Google',
