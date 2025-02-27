@@ -10,13 +10,15 @@ const files = [
 files.forEach((file) => {
     if (fs.existsSync(file)) {
         const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+        data.attributeForwardUrl = 'Forward URL'
+        data.attributeItin = 'CPF'
+        data.attributeNic = 'RG'
         data.mapOpenFreeMap = 'OpenFreeMap'; // Add new key-value pair
         data.categoryPickup = file.endsWith('es.json') ? 'Camioneta' : 'Pickup'
         data.categoryShoppingbag = 'Mala'
         data.categoryTrailer = file.endsWith('es.json') ? 'Rampa Temperatura' : 'Trailer'
         data.categoryTrailer2 = file.endsWith('es.json') ? 'Rampa' : 'Caçamba'
         data.commandPositionSingle = file.endsWith('es.json') ? 'Actualizar Posición' : 'Actualizar Posição'
-        data.attributeForwardUrl = 'Forward URL'
         data.positionFixTime = 'Hora GPS'
         data.confirmBlockCommand = file.endsWith('es.json') ? 'Está seguro de enviar el comando de bloqueo?' : 'Tem a certeza que pretende bloquear o veículo?'
         data.confirmUnblockCommand = file.endsWith('es.json') ? 'Está seguro de enviar el comando de desbloqueo?' : 'Tem a certeza que pretende desbloquear o veículo?'
