@@ -10,9 +10,12 @@ const files = [
 files.forEach((file) => {
     if (fs.existsSync(file)) {
         const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+        data.attributeDl = 'CNH'
+        data.attributeDlExpiration = 'Validade CNH'
         data.attributeForwardUrl = 'Forward URL'
         data.attributeItin = 'CPF'
         data.attributeNic = 'RG'
+        data.attributeVatNumber = 'CNPJ'
         data.mapOpenFreeMap = 'OpenFreeMap'; // Add new key-value pair
         data.categoryPickup = file.endsWith('es.json') ? 'Camioneta' : 'Pickup'
         data.categoryShoppingbag = 'Mala'
