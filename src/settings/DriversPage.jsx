@@ -52,7 +52,7 @@ const DriversPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.attributes.attributeItin}</TableCell>
+              <TableCell>{item.attributes.itin}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" setTimestamp={setTimestamp} />
               </TableCell>
