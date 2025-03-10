@@ -55,7 +55,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       labelColor: showStatus && device.status.endsWith('line') && theme.palette[getStatusColor(device.status)].main,
       rotation: icons[mapIconKey(device.category)] || iconsRemote[mapIconKey(device.category)]? position.course % 22.5 : 0,
       course: position.course,
-      iconDegrees: position.course - position.course % 22.5,
+      iconDegrees: (position.course - position.course % 22.5) || 0,
       direction: showDirection,
     };
   };
