@@ -98,7 +98,7 @@ const CombinedReportPage = () => {
                   <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
                   <TableCell>{t(prefixString('event', event.type))}</TableCell>
                 </TableRow>
-              ))) : (<TableShimmer columns={3} />)}
+              ))) : (<TableShimmer columns={4} />)}
             </TableBody>
           </Table>
         </div>
