@@ -35,3 +35,5 @@ done
     echo "import './instrument.js';"
     cat traccar-web/src/index.jsx
 } > temp && mv temp traccar-web/src/index.jsx
+
+cat traccar-web/src/index.jsx
