@@ -31,3 +31,7 @@ for FILE in "${FILES[@]}"; do
     sed -i "s|\${description}|$DESCRIPTION|g" "$FILE" || true
 done
 
+{
+    echo "import './instrument.js';"
+    cat traccar-web/src/index.jsx
+} > temp && mv temp traccar-web/src/index.jsx
