@@ -16,6 +16,7 @@ files.forEach((file) => {
         data.attributeItin = file.endsWith('es.json') ? 'RUT' : 'CPF'
         data.attributeNic = 'RG'
         data.attributeVatNumber = file.endsWith('es.json') ? 'RUT' : 'CNPJ'
+        data.commandNoQueue = file.endsWith('es.json') ? 'No colocar en fila' : 'Não colocar em fila'
         data.mapOpenFreeMap = 'OpenFreeMap'; // Add new key-value pair
         data.categoryPickup = file.endsWith('es.json') ? 'Camioneta' : 'Pickup'
         data.categoryShoppingbag = 'Mala'
