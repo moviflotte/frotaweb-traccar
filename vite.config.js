@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 import palette from './src/common/theme/palette.js';
+import { defineConfig } from "vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 export default defineConfig(() => ({
   base: "/traccar",
@@ -21,6 +22,7 @@ export default defineConfig(() => ({
   },
   build: {
     outDir: 'build',
+    sourcemap: true, // Source map generation must be turned on
   },
   plugins: [
     svgr(),
@@ -56,6 +58,11 @@ export default defineConfig(() => ({
           },
         ],
       },
+    }),
+    sentryVitePlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: "rastreosat",
+      project: "rastreosat",
     }),
   ],
 }));
