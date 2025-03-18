@@ -24,6 +24,7 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import * as Sentry from "@sentry/react";
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -46,7 +47,13 @@ const RouteReportPage = () => {
 
   const handleSubmit = useCatch(async ({ deviceIds, from, to, type }) => {
     const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    deviceIds.forEach((deviceId) => {
+      if (Number.isInteger(deviceId)) {
+        query.append('deviceId', deviceId)
+      } else {
+        Sentry.captureMessage(`Invalid deviceId ${deviceId}`, "warning");
+      }
+    });
     if (type === 'export') {
       window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
