@@ -12,6 +12,7 @@ import { sessionActions } from './store';
 import UpdateController from './UpdateController';
 import TermsDialog from './common/components/TermsDialog';
 import Loader from './common/components/Loader';
+import * as Sentry from "@sentry/react";
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -66,7 +67,9 @@ const App = () => {
     if (!user) {
       const response = await fetch('/api/session');
       if (response.ok) {
-        dispatch(sessionActions.updateUser(await response.json()));
+        const user = await response.json()
+        dispatch(sessionActions.updateUser(user));
+        Sentry.setContext('user', user)
       } else if (newServer) {
         navigate('/register');
       } else {
