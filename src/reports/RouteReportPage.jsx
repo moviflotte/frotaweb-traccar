@@ -25,6 +25,7 @@ import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import * as Sentry from "@sentry/react";
+import { utils, writeFileXLSX } from 'xlsx';
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -54,9 +55,7 @@ const RouteReportPage = () => {
         Sentry.captureMessage(`Invalid deviceId ${deviceId}`, "warning");
       }
     });
-    if (type === 'export') {
-      window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
+    if (type === 'mail') {
       const response = await fetch(`/api/reports/route/mail?${query.toString()}`);
       if (!response.ok) {
         throw Error(await response.text());
@@ -89,6 +88,10 @@ const RouteReportPage = () => {
         }
       } finally {
         setLoading(false);
+      }
+      if (type === 'export') {
+        const table = document.querySelector('table');
+        requestAnimationFrame(() => writeFileXLSX(utils.table_to_book(table), "route.xlsx"));
       }
     }
   });
