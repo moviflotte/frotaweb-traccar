@@ -1,5 +1,6 @@
 #!/bin/bash
 rm -rf traccar-web
+rm src/reports/RouteReportPage.jsx
 GIT_TRACE=1 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
