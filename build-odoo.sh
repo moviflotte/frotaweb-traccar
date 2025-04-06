@@ -12,10 +12,10 @@ perl -pi -e 's|itemSize={72|itemSize={60|' traccar-web/src/main/DeviceList.jsx
 perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/fleet_traccar/static/traccar|g' traccar-web/src/settings/SharePage.jsx
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/fleet_traccar/static/traccar">|g' traccar-web/src/index.jsx
 
-cp -v vite.odoo.config.js traccar-web/vite.config.js
+cp -vr odoo/* traccar-web
 node prebuild.js
-
 cp -vr src/* traccar-web/src
+
 {
     echo "import './instrument.js';"
     echo "(() => {
@@ -32,5 +32,5 @@ cp -vr src/* traccar-web/src
 
 cd traccar-web || exit
 npm install @sentry/vite-plugin @sentry/react maplibregl-mapbox-request-transformer
-export VITE_APP_VERSION=$npm_package_version && npm run build
+npm run build
 
