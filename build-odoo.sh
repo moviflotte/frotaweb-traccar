@@ -32,5 +32,4 @@ cp -vr odoo/* traccar-web
 
 cd traccar-web || exit
 npm install @sentry/vite-plugin @sentry/react maplibregl-mapbox-request-transformer
-npm run build
-
+export VITE_APP_VERSION=$npm_package_version && npm run build
