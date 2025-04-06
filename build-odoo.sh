@@ -12,9 +12,9 @@ perl -pi -e 's|itemSize={72|itemSize={60|' traccar-web/src/main/DeviceList.jsx
 perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/fleet_traccar/static/traccar|g' traccar-web/src/settings/SharePage.jsx
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/fleet_traccar/static/traccar">|g' traccar-web/src/index.jsx
 
-cp -vr odoo/* traccar-web
 node prebuild.js
 cp -vr src/* traccar-web/src
+cp -vr odoo/* traccar-web
 
 {
     echo "import './instrument.js';"
