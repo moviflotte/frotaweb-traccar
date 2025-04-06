@@ -10,9 +10,8 @@ perl -pi -e 's|"start": "vite"|"start": "vite --host"|g' traccar-web/package.jso
 perl -pi -e 's|itemSize={72|itemSize={60|' traccar-web/src/main/DeviceList.jsx
 perl -pi -e 's|\{window.location.origin\}|\{window.location.origin}/fleet_traccar/static/traccar|g' traccar-web/src/settings/SharePage.jsx
 perl -pi -e 's|<BrowserRouter>|<BrowserRouter basename="/fleet_traccar/static/traccar">|g' traccar-web/src/index.jsx
-perl -pi -e 's|<Route path="/" element={<App />|<Route path="/index.html" element={<App />|g' traccar-web/src/navigation.jsx
+
 cp -v vite.odoo.config.js traccar-web/vite.config.js
-cp -v index.html traccar-web
 node prebuild.js
 
 cp -vr src/* traccar-web/src
