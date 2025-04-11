@@ -1,6 +1,6 @@
 {
   "name": "frotaweb-traccar",
-  "version": "1.324.0",
+  "version": "1.325.0",
   "main": "index.js",
   "scripts": {
     "prebuild": "./prebuild.sh",
