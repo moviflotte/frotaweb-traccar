@@ -1,4 +1,6 @@
-import React, { Fragment, useCallback, useState } from 'react';
+import React, {
+  Fragment, useCallback, useEffect, useRef, useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -24,6 +26,8 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import { useRestriction } from '../common/util/permissions';
+import CollectionActions from '../settings/components/CollectionActions';
 import * as Sentry from "@sentry/react";
 import { utils, writeFileXLSX } from 'xlsx';
 
@@ -35,12 +39,21 @@ const RouteReportPage = () => {
   const positionAttributes = usePositionAttributes(t);
 
   const devices = useSelector((state) => state.devices.items);
+  const readonly = useRestriction('readonly');
 
   const [available, setAvailable] = useState([]);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const selectedIcon = useRef();
+
+  useEffect(() => {
+    if (selectedIcon.current) {
+      selectedIcon.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }, [selectedIcon.current]);
 
   const onMapPointClick = useCallback((positionId) => {
     setSelectedItem(items.find((it) => it.id === positionId));
@@ -107,78 +120,90 @@ const RouteReportPage = () => {
   });
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
-      <div className={classes.container}>
-        {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
-                const positions = items.filter((position) => position.deviceId === deviceId);
-                return (
-                  <Fragment key={deviceId}>
-                    <MapRoutePath positions={positions} />
-                    <MapRoutePoints positions={positions} onClick={onMapPointClick} />
-                  </Fragment>
-                );
-              })}
-              <MapPositions positions={[selectedItem]} titleField="fixTime" />
-            </MapView>
-            <MapScale />
-            <MapCamera positions={items} />
-          </div>
-        )}
-        <div className={classes.containerMain}>
-          <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice loading={loading}>
-              <ColumnSelect
-                columns={columns}
-                setColumns={setColumns}
-                columnsArray={available}
-                rawValues
-                disabled={!items.length}
-              />
-            </ReportFilter>
-          </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.columnAction} />
-                <TableCell>{t('sharedDevice')}</TableCell>
-                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading ? items.slice(0, 8000).map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className={classes.columnAction} padding="none">
-                    {selectedItem === item ? (
-                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
-                        <GpsFixedIcon fontSize="small" />
-                      </IconButton>
-                    ) : (
-                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
-                        <LocationSearchingIcon fontSize="small" />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                  <TableCell>{devices[item.deviceId].name}</TableCell>
-                  {columns.map((key) => (
-                    <TableCell key={key}>
-                      <PositionValue
-                        position={item}
-                        property={item.hasOwnProperty(key) ? key : null}
-                        attribute={item.hasOwnProperty(key) ? null : key}
-                      />
-                    </TableCell>
-                  ))}
+      <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
+        <div className={classes.container}>
+          {selectedItem && (
+              <div className={classes.containerMap}>
+                <MapView>
+                  <MapGeofence />
+                  {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
+                    const positions = items.filter((position) => position.deviceId === deviceId);
+                    return (
+                        <Fragment key={deviceId}>
+                          <MapRoutePath positions={positions} />
+                          <MapRoutePoints positions={positions} onClick={onMapPointClick} />
+                        </Fragment>
+                    );
+                  })}
+                  <MapPositions positions={[selectedItem]} titleField="fixTime" />
+                </MapView>
+                <MapScale />
+                <MapCamera positions={items} />
+              </div>
+          )}
+          <div className={classes.containerMain}>
+            <div className={classes.header}>
+              <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice loading={loading}>
+                <ColumnSelect
+                    columns={columns}
+                    setColumns={setColumns}
+                    columnsArray={available}
+                    rawValues
+                    disabled={!items.length}
+                />
+              </ReportFilter>
+            </div>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.columnAction} />
+                  <TableCell>{t('sharedDevice')}</TableCell>
+                  {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
+                  <TableCell className={classes.columnAction} />
                 </TableRow>
-              )) : (<TableShimmer columns={columns.length + 2} startAction />)}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {!loading ? items.slice(0, 8000).map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className={classes.columnAction} padding="none">
+                        {selectedItem === item ? (
+                            <IconButton size="small" onClick={() => setSelectedItem(null)} ref={selectedIcon}>
+                              <GpsFixedIcon fontSize="small" />
+                            </IconButton>
+                        ) : (
+                            <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                              <LocationSearchingIcon fontSize="small" />
+                            </IconButton>
+                        )}
+                      </TableCell>
+                      <TableCell>{devices[item.deviceId].name}</TableCell>
+                      {columns.map((key) => (
+                          <TableCell key={key}>
+                            <PositionValue
+                                position={item}
+                                property={item.hasOwnProperty(key) ? key : null}
+                                attribute={item.hasOwnProperty(key) ? null : key}
+                            />
+                          </TableCell>
+                      ))}
+                      <TableCell className={classes.actionCellPadding}>
+                        <CollectionActions
+                            itemId={item.id}
+                            endpoint="positions"
+                            readonly={readonly}
+                            setTimestamp={() => {
+                              // NOTE: Gets called when an item was removed
+                              setItems(items.filter((position) => position.id !== item.id));
+                            }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                )) : (<TableShimmer columns={columns.length + 2} startAction />)}
+              </TableBody>
+            </Table>
+          </div>
         </div>
-      </div>
-    </PageLayout>
+      </PageLayout>
   );
 };
 
