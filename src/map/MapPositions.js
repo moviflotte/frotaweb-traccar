@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
@@ -27,6 +28,8 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
+
+  const theme = useTheme();
 
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
