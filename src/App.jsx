@@ -20,6 +20,9 @@ const useStyles = makeStyles(() => ({
     overflow: 'auto',
   },
   menu: {
+    '@media print': {
+      display: 'none !important'
+    },
     zIndex: 4,
   },
 }));

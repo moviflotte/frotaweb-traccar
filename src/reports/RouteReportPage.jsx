@@ -8,7 +8,6 @@ import {
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
-import * as Sentry from '@sentry/react';
 import { utils, writeFileXLSX } from 'xlsx';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -32,63 +31,67 @@ import { useRestriction } from '../common/util/permissions';
 import CollectionActions from '../settings/components/CollectionActions';
 import {nativePostMessage} from "../common/components/NativeInterface";
 
-const PrintHeader = (props) => (
-    <div style={{ padding: 10 }}>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
+const PrintHeader = ({from, to}) => {
+  const devices = useSelector((state) => state.devices.items);
+  const deviceId = useSelector((state) => state.devices.selectedId);
+  const t = useTranslation();
+
+  return <div style={{padding: 10}}>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+    }}
+    >
+      <img
+          src={`https://docs.frotaweb.com/${window.location.hostname}/logo_large.svg`}
+          alt="Company Logo"
+          style={{height: 60}}
+          onLoad={async () => {
+            requestAnimationFrame(() => requestAnimationFrame(window.print))
+            nativePostMessage('print')
+          }}
+      />
+      <h1 style={{
+        fontSize: 24,
+        margin: 0,
       }}
       >
-        <img
-            src={`https://docs.frotaweb.com/${window.location.hostname}/logo_large.svg`}
-            alt="Company Logo"
-            style={{ height: 60 }}
-            onLoad={async () => {
-              requestAnimationFrame(() => requestAnimationFrame(window.print))
-              nativePostMessage(`print`)
-            }}
-        />
-        <h1 style={{
-          fontSize: 24,
-          margin: 0,
-        }}
-        >
-          {props.t}
-        </h1>
+        {t('reportRoute')}
+      </h1>
+    </div>
+    <div style={{
+      marginTop: 10,
+      fontSize: 14,
+      color: '#555',
+    }}
+    >
+      <div>
+        <strong>
+          {t('sharedDevice')}
+          :
+        </strong>
+        {' '}
+        {devices[deviceId]?.name || ''}
       </div>
-      <div style={{
-        marginTop: 10,
-        fontSize: 14,
-        color: '#555',
-      }}
-      >
-        <div>
-          <strong>
-            {props.t1}
-            :
-          </strong>
-          {' '}
-          {props.devices[props.deviceId]?.name || ''}
-        </div>
-        <div>
-          <strong>
-            {props.t2}
-            :
-          </strong>
-          {' '}
-          {new Date(props.from).toLocaleString()}
-        </div>
-        <div>
-          <strong>
-            {props.t3}
-            :
-          </strong>
-          {' '}
-          {new Date(props.to).toLocaleString()}
-        </div>
+      <div>
+        <strong>
+          {t('reportFrom')}
+          :
+        </strong>
+        {' '}
+        {new Date(from).toLocaleString()}
+      </div>
+      <div>
+        <strong>
+          {t('reportTo')}
+          :
+        </strong>
+        {' '}
+        {new Date(to).toLocaleString()}
       </div>
     </div>
-);
+  </div>
+}
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -99,9 +102,7 @@ const RouteReportPage = () => {
 
   const devices = useSelector((state) => state.devices.items);
   const readonly = useRestriction('readonly');
-  const deviceId = useSelector((state) => state.devices.selectedId);
-  const from = useSelector((state) => state.reports.from);
-  const to = useSelector((state) => state.reports.to);
+
 
   const [available, setAvailable] = useState([]);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
@@ -109,6 +110,8 @@ const RouteReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [print, setPrint] = useState(false)
+  const [from, setFrom] = useState()
+  const [to, setTo] = useState()
 
   const selectedIcon = useRef();
 
@@ -134,13 +137,7 @@ const RouteReportPage = () => {
 
   const handleSubmit = useCatch(async ({ deviceIds, from, to, type }) => {
     const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => {
-      if (Number.isInteger(deviceId)) {
-        query.append('deviceId', deviceId);
-      } else {
-        Sentry.captureMessage(`Invalid deviceId ${deviceId}`, 'warning');
-      }
-    });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId))
     if (type === 'mail') {
       const response = await fetch(`/api/reports/route/mail?${query.toString()}`);
       if (!response.ok) {
@@ -183,6 +180,8 @@ const RouteReportPage = () => {
       const table = document.querySelector('table');
       requestAnimationFrame(() => writeFileXLSX(utils.table_to_book(table), 'route.xlsx'));
     } else if (type === 'pdf') {
+      setFrom(from)
+      setTo(to)
       setPrint(true);
     }
   });
@@ -198,16 +197,7 @@ const RouteReportPage = () => {
   });
 
   return print ? (<div>
-    <PrintHeader
-        t={t('reportRoute')}
-        t1={t('sharedDevice')}
-        devices={devices}
-        deviceId={deviceId}
-        t2={t('reportFrom')}
-        from={from}
-        t3={t('reportTo')}
-        to={to}
-    />
+    <PrintHeader from={from} to={to}></PrintHeader>
     <div>
       <Table>
       <TableHead>
