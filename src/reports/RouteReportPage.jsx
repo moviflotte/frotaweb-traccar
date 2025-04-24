@@ -42,7 +42,7 @@ const PrintHeader = (props) => (
             src={`https://docs.frotaweb.com/${window.location.hostname}/logo_large.svg`}
             alt="Company Logo"
             style={{ height: 60 }}
-            onLoad={() => requestAnimationFrame(window.print)}
+            onLoad={() => requestAnimationFrame(() => requestAnimationFrame(window.print))}
         />
         <h1 style={{
           fontSize: 24,
