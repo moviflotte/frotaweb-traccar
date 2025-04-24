@@ -30,6 +30,7 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import { useRestriction } from '../common/util/permissions';
 import CollectionActions from '../settings/components/CollectionActions';
+import {nativePostMessage} from "../common/components/NativeInterface";
 
 const PrintHeader = (props) => (
     <div style={{ padding: 10 }}>
@@ -42,7 +43,10 @@ const PrintHeader = (props) => (
             src={`https://docs.frotaweb.com/${window.location.hostname}/logo_large.svg`}
             alt="Company Logo"
             style={{ height: 60 }}
-            onLoad={() => requestAnimationFrame(() => requestAnimationFrame(window.print))}
+            onLoad={async () => {
+              requestAnimationFrame(() => requestAnimationFrame(window.print))
+              nativePostMessage(`print`)
+            }}
         />
         <h1 style={{
           fontSize: 24,
@@ -208,27 +212,14 @@ const RouteReportPage = () => {
       <Table>
       <TableHead>
         <TableRow>
-          <TableCell className={classes.columnAction} />
           <TableCell>{t('sharedDevice')}</TableCell>
           {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
-          <TableCell className={classes.columnAction} />
         </TableRow>
       </TableHead>
       <TableBody>
         {!loading ? items.slice(0, 8000)
             .map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className={classes.columnAction} padding="none">
-                    {selectedItem === item ? (
-                        <IconButton size="small" onClick={() => setSelectedItem(null)} ref={selectedIcon}>
-                          <GpsFixedIcon fontSize="small" />
-                        </IconButton>
-                    ) : (
-                        <IconButton size="small" onClick={() => setSelectedItem(item)}>
-                          <LocationSearchingIcon fontSize="small" />
-                        </IconButton>
-                    )}
-                  </TableCell>
                   <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
                       <TableCell key={key}>
@@ -239,17 +230,6 @@ const RouteReportPage = () => {
                         />
                       </TableCell>
                   ))}
-                  <TableCell className={classes.actionCellPadding}>
-                    <CollectionActions
-                        itemId={item.id}
-                        endpoint="positions"
-                        readonly={readonly}
-                        setTimestamp={() => {
-                          // NOTE: Gets called when an item was removed
-                          setItems(items.filter((position) => position.id !== item.id));
-                        }}
-                    />
-                  </TableCell>
                 </TableRow>
             )) : (<TableShimmer columns={columns.length + 2} startAction />)}
       </TableBody>
