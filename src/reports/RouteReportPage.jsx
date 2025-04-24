@@ -36,13 +36,13 @@ const PrintHeader = (props) => (
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
       }}
       >
         <img
             src={`https://docs.frotaweb.com/${window.location.hostname}/logo_large.svg`}
             alt="Company Logo"
             style={{ height: 60 }}
+            onLoad={() => requestAnimationFrame(window.print)}
         />
         <h1 style={{
           fontSize: 24,
@@ -180,7 +180,6 @@ const RouteReportPage = () => {
       requestAnimationFrame(() => writeFileXLSX(utils.table_to_book(table), 'route.xlsx'));
     } else if (type === 'pdf') {
       setPrint(true);
-      requestAnimationFrame(window.print);
     }
   });
 
