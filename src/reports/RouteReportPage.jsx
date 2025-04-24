@@ -48,7 +48,7 @@ const PrintHeader = ({from, to}) => {
           style={{height: 60}}
           onLoad={async () => {
             requestAnimationFrame(() => requestAnimationFrame(window.print))
-            nativePostMessage('print')
+            nativePostMessage(`print|${t('reportRoute')}.pdf`)
           }}
       />
       <h1 style={{
