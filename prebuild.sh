@@ -11,7 +11,7 @@ perl -pi -e 's|"start": "vite"|"start": "vite --host"|g' traccar-web/package.jso
 perl -pi -e 's|itemSize={72|itemSize={60|' traccar-web/src/main/DeviceList.jsx
 
 node prebuild.js
-
+cp -v styles.css traccar-web/public
 cp -vr src/* traccar-web/src
 
 if [ -n "${LOGO_URL}" ]; then

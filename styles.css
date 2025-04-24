@@ -1,0 +1,32 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 5mm;
+  }
+  .MuiDrawer-root {
+    display: none !important;
+  }
+  html {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
