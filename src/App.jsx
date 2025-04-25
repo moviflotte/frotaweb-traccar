@@ -52,6 +52,8 @@ const App = () => {
     }
   });
 
+  const printing = useSelector((state) => state.session.printing);
+
   useEffect(() => {
     const handleNavigationMessage = (event) => {
       if (event.data.type === 'navigate' && event.data.path) {
@@ -96,7 +98,7 @@ const App = () => {
       <div className={classes.page}>
         <Outlet />
       </div>
-      {!desktop && (
+      {!desktop && !printing && (
         <div className={classes.menu}>
           <BottomMenu />
         </div>

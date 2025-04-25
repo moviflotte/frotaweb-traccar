@@ -29,7 +29,9 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import { useRestriction } from '../common/util/permissions';
 import CollectionActions from '../settings/components/CollectionActions';
-import {nativePostMessage} from "../common/components/NativeInterface";
+import {nativePostMessage} from '../common/components/NativeInterface';
+import { sessionActions } from '../store';
+import { useDispatch } from 'react-redux';
 
 const PrintHeader = ({from, to}) => {
   const devices = useSelector((state) => state.devices.items);
@@ -97,6 +99,7 @@ const RouteReportPage = () => {
   const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
+  const dispatch = useDispatch();
 
   const positionAttributes = usePositionAttributes(t);
 
@@ -109,21 +112,22 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [print, setPrint] = useState(false)
   const [from, setFrom] = useState()
   const [to, setTo] = useState()
+  const printing = useSelector((state) => state.session.printing);
+
 
   const selectedIcon = useRef();
 
   useEffect(() => {
     const handleAfterPrint = () => {
-      setPrint(false);
+      dispatch(sessionActions.setPrinting(false));
     };
     window.addEventListener('afterprint', handleAfterPrint);
     return () => {
       window.removeEventListener('afterprint', handleAfterPrint);
     };
-  }, [setPrint]);
+  }, []);
 
   useEffect(() => {
     if (selectedIcon.current) {
@@ -182,7 +186,7 @@ const RouteReportPage = () => {
     } else if (type === 'pdf') {
       setFrom(from)
       setTo(to)
-      setPrint(true);
+      dispatch(sessionActions.setPrinting(true));
     }
   });
 
@@ -196,7 +200,7 @@ const RouteReportPage = () => {
     }
   });
 
-  return print ? (<div>
+  return printing ? (<div>
     <PrintHeader from={from} to={to}></PrintHeader>
     <div>
       <Table>
