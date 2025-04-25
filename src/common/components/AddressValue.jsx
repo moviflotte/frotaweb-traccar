@@ -15,7 +15,8 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
     setAddress(originalAddress);
   }, [latitude, longitude, originalAddress]);
 
-  const showAddress = useCatch(async () => {
+  const showAddress = useCatch(async (event) => {
+    event.preventDefault();
     const query = new URLSearchParams({ latitude, longitude });
     const response = await fetch(`/api/server/geocode?${query.toString()}`);
     if (response.ok) {
@@ -26,10 +27,16 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
   });
 
   if (address) {
-    return address;
+    return (<span title={address} style={{
+      display: '-webkit-box',
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: 'vertical',
+      fontSize: 'smaller',
+      overflow: 'hidden'
+    }}>{address}</span>);
   }
   if (addressEnabled) {
-    return (<Link target="_blank" onClick={showAddress} href={`https://www.google.com/maps/search/?api=1&query=${latitude}%2C${longitude}`} >{t('sharedShowAddress')}</Link>);
+    return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
   }
   return '';
 };
