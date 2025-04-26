@@ -44,16 +44,20 @@ window.updateNotificationToken = (token) => {
   updateNotificationTokenListeners.forEach((listener) => listener(token));
 };
 
-window.unsetPrinting = () => {
-  const dispatch = useDispatch();
-  dispatch(sessionActions.setPrinting(false))
-}
-
 const NativeInterface = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.session.user);
   const [notificationToken, setNotificationToken] = useState(null);
+
+  useEffect(() => {
+    window.unsetPrinting = () => {
+      dispatch(sessionActions.setPrinting(false));
+    };
+    return () => {
+      window.unsetPrinting = null;
+    };
+  }, []);
 
   useEffect(() => {
     const listener = (token) => setNotificationToken(token);
