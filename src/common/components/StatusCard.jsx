@@ -184,6 +184,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     if (position) {
       fetch(`https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`)
           .then(response => (setStreetView(response.ok)))
+          .catch(() => setStreetView(false))
     }
   }, [position]);
 
