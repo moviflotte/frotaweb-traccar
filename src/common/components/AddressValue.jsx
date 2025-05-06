@@ -32,7 +32,8 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
       WebkitLineClamp: 2,
       WebkitBoxOrient: 'vertical',
       fontSize: 'smaller',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      maxWidth: '150px'
     }}>{address}</span>);
   }
   if (addressEnabled) {

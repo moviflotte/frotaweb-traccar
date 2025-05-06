@@ -311,15 +311,15 @@ export default (t) => useMemo(() => ({
     type: 'number',
   },
   tag1Temp: {
-    name: `${t('positionTemp')} BL 1`,
+    name: `${t('positionTemp')} BT1`,
     type: 'number',
   },
   tag2Temp: {
-    name: `${t('positionTemp')} BL 2`,
+    name: `${t('positionTemp')} BT2`,
     type: 'number',
   },
   tag3Temp: {
-    name: `${t('positionTemp')} BL 3`,
+    name: `${t('positionTemp')} BT3`,
     type: 'number',
   },
   temp1: {
