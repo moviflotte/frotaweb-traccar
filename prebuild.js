@@ -24,6 +24,7 @@ files.forEach((file) => {
         data.categoryTrailer2 = file.endsWith('es.json') ? 'Rampa' : 'Caçamba'
         data.commandPositionSingle = file.endsWith('es.json') ? 'Actualizar Posición' : 'Actualizar Posição'
         data.positionEngineTemp = 'Temperatura Motor'
+        data.positionCoolingEngine = 'Motor de Frio'
         data.positionFixTime = 'Hora GPS'
         data.positionFuelUsed = file.endsWith('es.json') ? 'Combustible consumido' : 'Combustível consumido'
         data.confirmBlockCommand = file.endsWith('es.json') ? 'Está seguro de enviar el comando de bloqueo?' : 'Tem a certeza que pretende bloquear o veículo?'
