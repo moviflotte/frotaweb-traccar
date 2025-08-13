@@ -184,7 +184,8 @@ const RouteReportPage = () => {
       }
     } if (type === 'export') {
       const table = document.querySelector('table');
-      requestAnimationFrame(() => writeFileXLSX(utils.table_to_book(table), 'route.xlsx'));
+      requestAnimationFrame(() =>
+          requestAnimationFrame(() => writeFileXLSX(utils.table_to_book(table), 'route.xlsx')));
     } else if (type === 'pdf') {
       setFrom(from)
       setTo(to)
