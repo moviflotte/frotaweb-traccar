@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
       position: 'fixed',
       left: 0,
       top: 0,
-      height: `calc(100% - ${theme.spacing(3)})`,
+      height: `calc(100%)`,
       width: theme.dimensions.drawerWidthDesktop,
-      margin: theme.spacing(1.5),
+      margin: 0,
       zIndex: 3,
     },
     [theme.breakpoints.down('md')]: {
