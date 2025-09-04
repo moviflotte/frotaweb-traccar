@@ -4,7 +4,7 @@ import {
   Paper, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText,
 } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
-import MapIcon from '@mui/icons-material/Map';
+import MapIcon from '@mui/icons-material/CloseFullscreen';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import TuneIcon from '@mui/icons-material/Tune';
 import { useTranslation } from '../common/components/LocalizationProvider';
