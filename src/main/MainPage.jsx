@@ -108,7 +108,7 @@ const MainPage = () => {
         />
       )}
       <div className={classes.sidebar}>
-        <Paper square elevation={0} className={classes.header}>
+        <Paper square elevation={0} className={classes.contentList}>
           <MainToolbar
             filteredDevices={filteredDevices}
             devicesOpen={devicesOpen}

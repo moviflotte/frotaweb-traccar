@@ -2,7 +2,7 @@ import car from './default'
 import truck from './truck'
 import {loadImage, prepareIcon} from "../mapUtil.js";
 import {map} from "../MapView.jsx";
-import {mapIcons} from "../preloadImages";
+import {mapIconKey, mapIcons} from "../preloadImages";
 import backgroundSvg from "../../../resources/images/background.svg";
 const baseUrl = '/icons3d'
 import createPalette from '@mui/material/styles/createPalette';
@@ -91,5 +91,7 @@ export function getSVGIcon(device, position) {
         const c = color.replace('#', '')
         const url = `${baseUrl}/${iconsRemote[category]}.php?grados=${rotation}&a=${c}&b=${c}&c=${c}`
         return `<img src="${url}" width="60" height="60" alt="${category}" />`
+    } else {
+        return `<img src="${mapIcons[mapIconKey(category)]}" width="60" height="60" alt="" style="filter:brightness(0) invert(1)"/>`
     }
 }

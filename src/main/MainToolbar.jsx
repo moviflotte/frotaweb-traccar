@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText,
+  Paper, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText,
 } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import MapIcon from '@mui/icons-material/Map';
@@ -52,7 +52,7 @@ const MainToolbar = ({
   const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
   return (
-    <Toolbar variant="dense" ref={toolbarRef} className={classes.toolbar}>
+    <Paper ref={toolbarRef} style={{ display: 'flex', alignItems: 'center', padding: theme.spacing(2) }}>
       <IconButton edge="start" onClick={() => setDevicesOpen(!devicesOpen)}>
         {devicesOpen ? <MapIcon /> : <ViewListIcon />}
       </IconButton>
@@ -162,7 +162,7 @@ const MainToolbar = ({
           </FormGroup>
         </div>
       </Popover>
-    </Toolbar>
+    </Paper>
   );
 };
 
