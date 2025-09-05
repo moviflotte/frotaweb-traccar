@@ -224,7 +224,7 @@ export default () => {
       style: styleCustom({
         tiles: googleKey
             ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
-            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga&scale=2`),
         maxZoom: 20,
         attribution: '© Google',
       }),
@@ -250,7 +250,7 @@ export default () => {
       style: styleCustom({
         tiles: googleKey
             ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}`]
-            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+            : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga&scale=2`),
         maxZoom: 20,
         attribution: '© Google',
       }),
