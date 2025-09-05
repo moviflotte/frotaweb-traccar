@@ -52,7 +52,7 @@ const MainToolbar = ({
   const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
   return (
-    <Paper ref={toolbarRef} style={{ height: theme.dimensions.bottomBarHeight-10, borderRadius: 0, display: 'flex', alignItems: 'center', padding: theme.spacing(2) }}>
+    <Paper ref={toolbarRef} style={{ height: theme.dimensions.bottomBarHeight-8, borderRadius: 0, display: 'flex', alignItems: 'center', padding: theme.spacing(2) }}>
       <IconButton edge="start" onClick={() => setDevicesOpen(!devicesOpen)}>
         {devicesOpen ? <MapIcon /> : <ViewListIcon />}
       </IconButton>
