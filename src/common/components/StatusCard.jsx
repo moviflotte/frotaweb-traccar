@@ -82,21 +82,7 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     justifyContent: 'space-between',
   },
-  root: ({ desktopPadding }) => ({
-    pointerEvents: 'none',
-    position: 'fixed',
-    zIndex: 5,
-    left: '50%',
-    [theme.breakpoints.up('md')]: {
-      left: `calc(50% + ${desktopPadding} / 2)`,
-      bottom: theme.spacing(3),
-    },
-    [theme.breakpoints.down('md')]: {
-      left: '50%',
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
-    },
-    transform: 'translateX(-50%)',
-  }),
+  root: ({ desktopPadding }) => ({}),
 }));
 
 const StatusRow = ({ name, content }) => {
@@ -180,24 +166,14 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const [streetView, setStreetView] = useState(false)
 
-  useEffect(() => {
-    if (position) {
-      fetch(`https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`)
-          .then(response => (setStreetView(response.ok)))
-          .catch(() => setStreetView(false))
-    }
-  }, [position]);
 
 
   return (
       <>
-        <div className={classes.root}>
+        <div className={classes.root} id="statuscard-node">
           {device && (
-              <Draggable
-                  handle={`.${classes.media}, .${classes.header}`}
-              >
                 <Card elevation={3} className={classes.card}>
-                  {(deviceImage || (position && streetView)) ? (<CardMedia
+                  {deviceImage || position ? (<CardMedia
                       className={classes.media}
                       image={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
                           : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
@@ -209,13 +185,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           && Object.values(groups).find(g => g.id === device.groupId).name
                         }
                       </div>
-                      <IconButton
-                          size="small"
-                          onClick={onClose}
-                          onTouchStart={onClose}
-                      >
-                        <CloseIcon fontSize="small"/>
-                      </IconButton>
                     </div>
 
                     <a target="_blank"
@@ -296,7 +265,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     </IconButton>
                   </CardActions>
                 </Card>
-              </Draggable>
           )}
         </div>
         {position && (
