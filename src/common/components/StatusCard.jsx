@@ -199,7 +199,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   handle={`.${classes.media}, .${classes.header}`}
               >
                 <Card elevation={3} className={classes.card}>
-                  {(deviceImage || (position && streetView)) ? (<CardMedia
+                  {(deviceImage || (position && streetView)) ? (<a target="_blank"
+                                                                   href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
+                                                                   rel="noreferrer">
+                    <CardMedia
                       className={classes.media}
                       image={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
                           : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
@@ -219,14 +222,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <CloseIcon fontSize="small"/>
                       </IconButton>)}
                     </div>
-
-                    <a target="_blank"
-                       href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
-                       rel="noreferrer">
-                      <div style={{height: '100px', width: '100%'}}></div>
-                    </a>
-
-                  </CardMedia>) : (
+                    </CardMedia></a>) : (
                       <div className={classes.header}>
                         <Typography variant="body2" color="textSecondary">
                           {device.name}
