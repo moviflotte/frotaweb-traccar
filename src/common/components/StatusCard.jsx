@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
+    borderRadius: 15,
   },
   media: {
     height: theme.dimensions.popupImageHeight,
@@ -82,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     justifyContent: 'space-between',
   },
+  popup: {},
   root: ({ desktopPadding }) => ({
     pointerEvents: 'none',
     position: 'fixed',
@@ -191,9 +193,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   return (
       <>
-        <div className={classes.root}>
+        <div className={onClose ? classes.root : classes.popup}>
           {device && (
-              <Draggable
+              <Draggable disabled={!onClose}
                   handle={`.${classes.media}, .${classes.header}`}
               >
                 <Card elevation={3} className={classes.card}>
@@ -209,13 +211,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           && Object.values(groups).find(g => g.id === device.groupId).name
                         }
                       </div>
-                      <IconButton
+                      {onClose && (<IconButton
                           size="small"
                           onClick={onClose}
                           onTouchStart={onClose}
                       >
                         <CloseIcon fontSize="small"/>
-                      </IconButton>
+                      </IconButton>)}
                     </div>
 
                     <a target="_blank"
@@ -229,13 +231,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <Typography variant="body2" color="textSecondary">
                           {device.name}
                         </Typography>
-                        <IconButton
+                        {onClose && (<IconButton
                             size="small"
                             onClick={onClose}
                             onTouchStart={onClose}
                         >
                           <CloseIcon fontSize="small"/>
-                        </IconButton>
+                        </IconButton>)}
                       </div>
                   )}
                   {position && (

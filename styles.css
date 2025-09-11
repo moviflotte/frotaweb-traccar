@@ -30,3 +30,9 @@ body {
     overflow: visible !important;
   }
 }
+
+.maplibregl-popup-content {
+  padding: 0 !important;
+  width: 288px !important;
+  border-radius: 15px !important;
+}
