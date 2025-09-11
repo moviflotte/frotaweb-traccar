@@ -29,6 +29,32 @@ import tramSvg from '../../resources/images/icon/tram.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
 import { map } from './MapView.jsx';
+
+import AnimalIcon from '../../resources/images/icon/animal.svg?react';
+import BicycleIcon from '../../resources/images/icon/bicycle.svg?react';
+import BoatIcon from '../../resources/images/icon/boat.svg?react';
+import BusIcon from '../../resources/images/icon/bus.svg?react';
+import CarIcon from '../../resources/images/icon/car.svg?react';
+import CamperIcon from '../../resources/images/icon/camper.svg?react';
+import CraneIcon from '../../resources/images/icon/crane.svg?react';
+import DefaultIcon from '../../resources/images/icon/default.svg?react';
+import HelicopterIcon from '../../resources/images/icon/helicopter.svg?react';
+import MotorcycleIcon from '../../resources/images/icon/motorcycle.svg?react';
+import PersonIcon from '../../resources/images/icon/person.svg?react';
+import PickupIcon from '../../resources/images/icon/pickup.svg?react';
+import PlaneIcon from '../../resources/images/icon/plane.svg?react';
+import ScooterIcon from '../../resources/images/icon/scooter.svg?react';
+import ShipIcon from '../../resources/images/icon/ship.svg?react';
+import StartIcon from '../../resources/images/icon/start.svg?react';
+import ShoppingBagIcon from '../../resources/images/icon/shoppingbag.svg?react';
+import FinishIcon from '../../resources/images/icon/finish.svg?react';
+import TractorIcon from '../../resources/images/icon/tractor.svg?react';
+import TrainIcon from '../../resources/images/icon/train.svg?react';
+import TrailerIcon from '../../resources/images/icon/trailer.svg?react';
+import TramIcon from '../../resources/images/icon/tram.svg?react';
+import TruckIcon from '../../resources/images/icon/truck.svg?react';
+import VanIcon from '../../resources/images/icon/van.svg?react';
+
 import load3dImage from './icons3d'
 
 
@@ -58,6 +84,34 @@ export const mapIcons = {
   tram: tramSvg,
   truck: truckSvg,
   van: vanSvg,
+};
+
+export const mapIconComponents = {
+  animal: AnimalIcon,
+  bicycle: BicycleIcon,
+  boat: BoatIcon,
+  bus: BusIcon,
+  car: CarIcon,
+  camper: CamperIcon,
+  crane: CraneIcon,
+  default: DefaultIcon,
+  finish: FinishIcon,
+  helicopter: HelicopterIcon,
+  motorcycle: MotorcycleIcon,
+  person: PersonIcon,
+  pickup: PickupIcon,
+  plane: PlaneIcon,
+  scooter: ScooterIcon,
+  shoppingbag: ShoppingBagIcon,
+  ship: ShipIcon,
+  start: StartIcon,
+  tractor: TractorIcon,
+  trailer: TrailerIcon,
+  trailer2: TrailerIcon,
+  train: TrainIcon,
+  tram: TramIcon,
+  truck: TruckIcon,
+  van: VanIcon,
 };
 
 export const mapIconKey = (category) => (mapIcons.hasOwnProperty(category) ? category : 'default');
