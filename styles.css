@@ -31,6 +31,13 @@ body {
   }
 }
 
+.maplibregl-popup,
+.maplibregl-popup-anchor-top,
+.maplibregl-popup-anchor-bottom {
+  width: 288px !important;
+  max-width: 288px !important;
+}
+
 .maplibregl-popup-content {
   padding: 0 !important;
   width: 288px !important;
