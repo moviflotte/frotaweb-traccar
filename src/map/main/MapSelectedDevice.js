@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
 import maplibregl from "maplibre-gl";
-const popup = new maplibregl.Popup()
+const popup = new maplibregl.Popup({offset: 25})
+import { createPortal } from "react-dom";
+import StatusCard from "../../common/components/StatusCard";
+
 
 const MapSelectedDevice = ({ mapReady }) => {
   const currentTime = useSelector((state) => state.devices.selectTime);
@@ -17,9 +20,11 @@ const MapSelectedDevice = ({ mapReady }) => {
   const mapFollow = useAttributePreference('mapFollow', false);
 
   const position = useSelector((state) => state.session.positions[currentId]);
+  const device = useSelector((state) => state.devices.items[currentId]);
+  const containerRef = useRef(document.createElement("div"));
+
 
   const previousPosition = usePrevious(position);
-
 
   useEffect(() => {
     if (!mapReady) return;
@@ -37,17 +42,23 @@ const MapSelectedDevice = ({ mapReady }) => {
     if (position) {
       popup.setLngLat([position.longitude, position.latitude])
       if (!popup.isOpen()) {
-        console.log('adding popup for', position.id)
+        popup.setDOMContent(containerRef.current);
         popup.addTo(map)
       }
-      const existingStatusCard = document.getElementById('statuscard-node')
-      const clonedCard = existingStatusCard.cloneNode(true);
-      clonedCard.setAttribute("id", new Date().getTime());
-      popup.setDOMContent(clonedCard);
     }
+    return () => {
+      popup.remove();
+      // dispatch(devicesActions.selectId(null))
+    };
   }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady]);
-
-  return null;
+  return position
+      ? createPortal(
+          React.createElement(StatusCard, {
+            deviceId: device.id,
+            position,
+          }),
+          containerRef.current)
+      : null;
 };
 
 MapSelectedDevice.handlesMapReady = true;
