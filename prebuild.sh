@@ -2,7 +2,6 @@
 GIT_TRACE=1 git clone --depth 1 https://github.com/jcardus/traccar-web || true
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
-perl -pi -e "s|'text-field': '▲',|'text-field': '▲','text-size': 20,|g" traccar-web/src/map/MapRoutePoints.js
 perl -pi -e "s|'line-width': 2,|'line-width': 3,|g" traccar-web/src/map/MapRoutePath.js
 perl -pi -e "s|<ArrowBackIcon />||g" traccar-web/src/common/components/PageLayout.jsx
 perl -pi -e 's|"start": "vite"|"start": "vite --host"|g' traccar-web/package.json
