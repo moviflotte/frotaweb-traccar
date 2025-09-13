@@ -12,18 +12,22 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Tooltip,
   Menu,
   MenuItem,
   CardMedia,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
-import ReplayIcon from '@mui/icons-material/Replay';
-import PublishIcon from '@mui/icons-material/Publish';
-import EditIcon from '@mui/icons-material/Edit';
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '../../resources/images/data/lock.svg?react';
+import LockOpenIcon from '../../resources/images/data/unlock.svg?react';
 import PendingIcon from '@mui/icons-material/Pending';
+
+import EditIcon from '../../resources/images/data/edit.svg?react';
+import GeofenceIcon from '../../resources/images/data/geofence.svg?react';
+import ReplayIcon from '../../resources/images/data/route.svg?react';
+import SendIcon from '../../resources/images/data/send.svg?react';
+import ShareIcon from '../../resources/images/data/share.svg?react';
 
 import { useTranslation } from './LocalizationProvider';
 import ConfirmDialog from './ConfirmDialog';
@@ -65,9 +69,19 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   icon: {
-    width: '25px',
-    height: '25px',
-    filter: 'brightness(0) invert(1)',
+    width: '24px',
+    height: '24px',
+    fill: theme.palette.secondary.main,
+  },
+  success: {
+    width: '24px',
+    height: '24px',
+    fill: theme.palette.success.main
+  },
+  error: {
+    width: '24px',
+    height: '24px',
+    fill: theme.palette.error.main
   },
   table: {
     '& .MuiTableCell-sizeSmall': {
@@ -82,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   actions: {
     justifyContent: 'space-between',
+    background: theme.palette.background.default,
   },
   popup: {},
   root: ({ desktopPadding }) => ({
@@ -265,32 +280,44 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     >
                       <PendingIcon />
                     </IconButton>
+                    <Tooltip title={t('sharedCreateGeofence')} placement="bottom">
+                      <IconButton onClick={handleGeofence}>
+                        <GeofenceIcon className={classes.icon} />
+                      </IconButton>
+                    </Tooltip>
+                    {!shareDisabled && !user.temporary && <Tooltip title= {t('deviceShare')} placement="bottom">
+                      <IconButton onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
+                        <ShareIcon className={classes.icon} />
+                      </IconButton>
+                    </Tooltip>}
                     <IconButton
                         onClick={() => navigate('/replay')}
                         disabled={disableActions || !position}
                     >
-                      <ReplayIcon />
+                      <ReplayIcon className={classes.icon} />
                     </IconButton>
-                    <IconButton
-                        onClick={() => navigate(`/settings/device/${deviceId}/command`)}
-                        disabled={disableActions}
-                    >
-                      <PublishIcon />
-                    </IconButton>
+                    <Tooltip title= {t('commandTitle')} placement="bottom">
+                      <IconButton
+                          onClick={() => navigate(`/settings/device/${deviceId}/command`)}
+                          disabled={disableActions}
+                      >
+                        <SendIcon className={classes.icon} />
+                      </IconButton>
+                    </Tooltip>
                     <IconButton
                         onClick={() => navigate(`/settings/device/${deviceId}`)}
                         disabled={disableActions || deviceReadonly}
                     >
-                      <EditIcon />
+                      <EditIcon className={classes.icon} />
                     </IconButton>
                     <IconButton
-                        color={position && position.attributes.blocked ? "error" : "success"}
                         onClick={() => setRemoving(true)}
                         disabled={disableActions || deviceReadonly}
                     >
                       {position && position.attributes.blocked ?
-                      <LockIcon /> :
-                      <LockOpenIcon />}
+                        <LockIcon className={classes.error}  /> :
+                        <LockOpenIcon className={classes.success}  />
+                      }
                     </IconButton>
                   </CardActions>
                 </Card>
@@ -300,12 +327,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         {position && (
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
               <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
-              <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
               <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
               <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
               <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
               {navigationAppTitle && <MenuItem component="a" target="_blank" href={navigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{navigationAppTitle}</MenuItem>}
-              {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
             </Menu>
         )}
         <ConfirmDialog
