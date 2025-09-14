@@ -302,15 +302,15 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <GeofenceIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>
+                    {!disableActions && position && <IconButton
+                        onClick={() => navigate('/replay')}>
+                      <ReplayIcon className={classes.icon} />
+                    </IconButton>}
                     {!disableActions && !shareDisabled && !user.temporary && <Tooltip title= {t('deviceShare')} placement="bottom">
                       <IconButton onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
                         <ShareIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>}
-                    {!disableActions && position && <IconButton
-                        onClick={() => navigate('/replay')}>
-                      <ReplayIcon className={classes.icon} />
-                    </IconButton>}
                     {!disableActions && <Tooltip title= {t('commandTitle')} placement="bottom">
                       <IconButton
                           onClick={() => navigate(`/settings/device/${deviceId}/command`)}
