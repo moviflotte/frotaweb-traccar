@@ -41,7 +41,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
           ['get', "color"],
           `rgb(NaN, NaN, NaN)`,
           `orange`,
-          'white'
+          'black'
         ],
         'text-halo-width': [
           'match',
@@ -55,7 +55,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
         'text-font': findFonts(map),
         'text-field': '↑',
         'text-size': 20,
-        'text-allow-overlap': false,
+        'text-overlap': 'cooperative',
         'text-rotate': ['get', 'rotation'],
       },
     });

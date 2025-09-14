@@ -43,3 +43,12 @@ body {
   width: 288px !important;
   border-radius: 15px !important;
 }
+
+.maplibregl-popup-close-button {
+  font-size: 40px;   /* bigger "×" */
+  width: 30px;       /* enlarge hit area */
+  height: 30px;
+  line-height: 30px; /* center the "×" */
+  right: 5px;        /* adjust positioning if needed */
+  top: 5px;
+}

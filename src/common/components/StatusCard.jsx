@@ -15,7 +15,6 @@ import {
   Tooltip,
   Menu,
   MenuItem,
-  CardMedia,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -53,6 +52,19 @@ const useStyles = makeStyles((theme) => ({
   mediaButton: {
     color: theme.palette.primary.contrastText,
     mixBlendMode: 'difference',
+  },
+  imageHeader: {
+    textShadow: '1px 1px 2px black',
+    position: 'absolute',
+    top: '10px',
+    left: '10px',
+  },
+  imageCloseButton: {
+    zIndex: 1001,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: theme.spacing(1),
   },
   header: {
     fontWeight: 'bold',
@@ -210,34 +222,39 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       <>
         <div className={onClose ? classes.root : classes.popup}>
           {device && (
-              <Draggable disabled={!onClose}
-                  handle={`.${classes.media}, .${classes.header}`}
-              >
+              <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {(deviceImage || (position && streetView)) ? (<a target="_blank"
-                                                                   href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
-                                                                   rel="noreferrer">
-                    <CardMedia
-                      className={classes.media}
-                      image={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
-                          : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
-                  >
-                    <div className={classes.header}>
-                      <div style={{textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'}} variant="body2">
-                        {device.name}<br/>{
-                          Object.values(groups).find(g => g.id === device.groupId)
-                          && Object.values(groups).find(g => g.id === device.groupId).name
-                        }
-                      </div>
-                      {onClose && (<IconButton
-                          size="small"
-                          onClick={onClose}
-                          onTouchStart={onClose}
-                      >
-                        <CloseIcon fontSize="small"/>
-                      </IconButton>)}
-                    </div>
-                    </CardMedia></a>) : (
+                  {(deviceImage || (position && streetView)) ? (
+                      <>
+                        <div className={classes.imageCloseButton}>
+                          {onClose && (<IconButton
+                              sx={{backgroundColor: 'rgba(255, 255, 255, 0.5)'}}
+                              size="small"
+                              onClick={onClose}
+                              onTouchStart={onClose}>
+                            <CloseIcon fontSize="small" color="white"/>
+                          </IconButton>)}
+                        </div>
+                        <a target="_blank"
+                           href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer"
+                           style={{position: 'relative', display: 'block'}}>
+                          <img
+                              src={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
+                                  : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
+                          />
+                          <div className={classes.imageHeader}>
+                            <Typography variant="body1" color="white">
+                              <b>{device.name.toUpperCase()}</b><br/>
+                            </Typography>
+                            <Typography variant="body2" color="white">
+                              {
+                                  Object.values(groups).find(g => g.id === device.groupId)
+                                  && Object.values(groups).find(g => g.id === device.groupId).name
+                              }</Typography>
+                          </div>
+                        </a>
+                      </>
+                  ) : (
                       <div className={classes.header}>
                         <Typography variant="body2" color="textSecondary">
                           {device.name}
@@ -285,40 +302,37 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <GeofenceIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>
-                    {!shareDisabled && !user.temporary && <Tooltip title= {t('deviceShare')} placement="bottom">
+                    {!disableActions && !shareDisabled && !user.temporary && <Tooltip title= {t('deviceShare')} placement="bottom">
                       <IconButton onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
                         <ShareIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>}
-                    <IconButton
-                        onClick={() => navigate('/replay')}
-                        disabled={disableActions || !position}
-                    >
+                    {!disableActions && position && <IconButton
+                        onClick={() => navigate('/replay')}>
                       <ReplayIcon className={classes.icon} />
-                    </IconButton>
-                    <Tooltip title= {t('commandTitle')} placement="bottom">
+                    </IconButton>}
+                    {!disableActions && <Tooltip title= {t('commandTitle')} placement="bottom">
                       <IconButton
                           onClick={() => navigate(`/settings/device/${deviceId}/command`)}
-                          disabled={disableActions}
                       >
                         <SendIcon className={classes.icon} />
                       </IconButton>
-                    </Tooltip>
-                    <IconButton
-                        onClick={() => navigate(`/settings/device/${deviceId}`)}
-                        disabled={disableActions || deviceReadonly}
-                    >
-                      <EditIcon className={classes.icon} />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => setRemoving(true)}
-                        disabled={disableActions || deviceReadonly}
-                    >
-                      {position && position.attributes.blocked ?
-                        <LockIcon className={classes.error}  /> :
-                        <LockOpenIcon className={classes.success}  />
-                      }
-                    </IconButton>
+                    </Tooltip>}
+                    {!disableActions && !deviceReadonly && <>
+                      <IconButton
+                          onClick={() => navigate(`/settings/device/${deviceId}`)}
+                      >
+                        <EditIcon className={classes.icon} />
+                      </IconButton>
+                      <IconButton
+                          onClick={() => setRemoving(true)}
+                      >
+                        {position && position.attributes.blocked ?
+                            <LockIcon className={classes.error}  /> :
+                            <LockOpenIcon className={classes.success}  />
+                        }
+                      </IconButton>
+                    </>}
                   </CardActions>
                 </Card>
               </Draggable>
