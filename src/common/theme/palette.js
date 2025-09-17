@@ -28,7 +28,7 @@ export default (server, darkMode) => ({
     paper: darkMode ? tailWindGray[800] : tailWindGray[100],
   },
   primary: {
-    main: validatedColor(server?.attributes?.colorPrimary) || (darkMode ? primary[200] : primary[900]),
+    main: darkMode ? primary[100] : validatedColor(server?.attributes?.colorPrimary) || primary[900]
   },
   secondary: {
     main: validatedColor(server?.attributes?.colorSecondary) || (darkMode ? green[200] : green[800]),
