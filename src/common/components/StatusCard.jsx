@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     width: '24px',
     height: '24px',
-    fill: theme.palette.secondary.main,
+    fill: theme.palette.primary.main,
   },
   success: {
     width: '24px',
