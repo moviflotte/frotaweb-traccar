@@ -6,5 +6,6 @@ export const onRequest = ({request, env}, cf) => {
     url.host = from < oldest ? (env.TRACCAR_REPORTS_SERVER || 'aadobrygc6wsyawaleatkimjjm0cczwu.lambda-url.us-east-1.on.aws') : env.TRACCAR_SERVER
     url.protocol = from < oldest ? 'https:' : 'http:'
     url.port = from < oldest ? 443 : 80
+    console.log(url)
     return fetch(new Request(url, request), cf)
 }
