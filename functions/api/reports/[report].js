@@ -8,5 +8,6 @@ export const onRequest = ({request, env}, cf) => {
         (env.TRACCAR_SERVER || 'gps.frotaweb.com')
     url.protocol = from < oldest ? 'https:' : 'http:'
     url.port = from < oldest ? 443 : 80
+    console.log(url)
     return fetch(new Request(url, request), cf)
 }
