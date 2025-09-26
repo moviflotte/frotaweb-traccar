@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Paper, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText,
+  Button, Paper, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText,
 } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import MapIcon from '@mui/icons-material/CloseFullscreen';
@@ -159,6 +159,7 @@ const MainToolbar = ({
               control={<Checkbox checked={filterMap} onChange={(e) => setFilterMap(e.target.checked)} />}
               label={t('sharedFilterMap')}
             />
+            <Button variant="outlined" onClick={() => setFilter({ statuses: [], groups: [] })}>Reset</Button>
           </FormGroup>
         </div>
       </Popover>
