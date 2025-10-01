@@ -1,12 +1,12 @@
 export const onRequest = ({request, env}, cf) => {
     const url = new URL(request.url)
-    const from = new Date(url.searchParams.get('from'))
     const oldest = new Date()
     oldest.setMonth(oldest.getMonth() - parseInt(env.DATABASE_RETENTION_MONTHS || '2'))
-    url.host = from < oldest ?
+    const forward = url.searchParams.get('from') && new Date(url.searchParams.get('from')) < oldest
+    url.host =  forward?
         (env.TRACCAR_REPORTS_SERVER || 'aadobrygc6wsyawaleatkimjjm0cczwu.lambda-url.us-east-1.on.aws') :
         (env.TRACCAR_SERVER || 'gps.frotaweb.com')
-    url.protocol = from < oldest ? 'https:' : 'http:'
+    url.protocol = forward ? 'https:' : 'http:'
     url.port = from < oldest ? 443 : 80
     console.log(url)
     return fetch(new Request(url, request), cf)
