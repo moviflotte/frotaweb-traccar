@@ -8,9 +8,14 @@ import maplibregl from "maplibre-gl";
 const popup = new maplibregl.Popup({offset: 25})
 import { createPortal } from "react-dom";
 import StatusCard from "../../common/components/StatusCard";
+import {devicesActions} from '../../store';
+import {useDispatch} from 'react-redux';
 
+let dispatchRef
+popup.on('close', () => dispatchRef && dispatchRef(devicesActions.selectId(null)))
 
 const MapSelectedDevice = ({ mapReady }) => {
+  dispatchRef = useDispatch();
   const currentTime = useSelector((state) => state.devices.selectTime);
   const currentId = useSelector((state) => state.devices.selectedId);
   const previousTime = usePrevious(currentTime);
@@ -46,10 +51,6 @@ const MapSelectedDevice = ({ mapReady }) => {
         popup.addTo(map)
       }
     }
-    return () => {
-      popup.remove();
-      // dispatch(devicesActions.selectId(null))
-    };
   }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady]);
   return position
       ? createPortal(
