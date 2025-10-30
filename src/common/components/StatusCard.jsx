@@ -27,6 +27,7 @@ import GeofenceIcon from '../../resources/images/data/geofence.svg?react';
 import ReplayIcon from '../../resources/images/data/route.svg?react';
 import SendIcon from '../../resources/images/data/send.svg?react';
 import ShareIcon from '../../resources/images/data/share.svg?react';
+import CameraIcon from '../../resources/images/data/camera.svg?react';
 
 import { useTranslation } from './LocalizationProvider';
 import ConfirmDialog from './ConfirmDialog';
@@ -36,6 +37,8 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+import {startStreaming} from "../util/cameras";
+import {stopStreaming} from "../util/cameras";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -168,6 +171,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
+  const [video, setVideo] = useState(false);
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
@@ -224,7 +228,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {device && (
               <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {(deviceImage || (position && streetView)) ? (
+                  {video && <video src={`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8`} autoPlay controls style={{width: '100%'}}></video>}
+                  {!video &&
+                      ((deviceImage || (position && streetView)) ? (
                       <>
                         <div className={classes.imageCloseButton}>
                           {onClose && (<IconButton
@@ -267,7 +273,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           <CloseIcon fontSize="small"/>
                         </IconButton>)}
                       </div>
-                  )}
+                  ))}
                   {position && (
                       <CardContent className={classes.content} sx={{padding: 1}}>
                         <Table size="small" classes={{root: classes.table}}>
@@ -318,6 +324,17 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <SendIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>}
+                    <Tooltip title={t('commandTitle')} placement="bottom">
+                      <IconButton
+                          onClick={() => {
+                            if (!video) { startStreaming(device.uniqueId).then() }
+                            else { stopStreaming(device.uniqueId).then() }
+                            setVideo(!video)
+                          }}
+                      >
+                        <CameraIcon className={classes.icon}/>
+                      </IconButton>
+                    </Tooltip>
                     {!disableActions && !deviceReadonly && <>
                       <IconButton
                           onClick={() => navigate(`/settings/device/${deviceId}`)}
