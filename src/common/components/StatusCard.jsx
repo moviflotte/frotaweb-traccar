@@ -15,6 +15,8 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  Snackbar,
+  CircularProgress,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -38,7 +40,10 @@ import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 import {startStreaming} from "../util/cameras";
-import {stopStreaming} from "../util/cameras";
+import Hls from 'hls.js';
+import {snackBarDurationLongMs} from "../util/duration";
+const hls = new Hls();
+hls.on(Hls.Events.ERROR, (event, data) => console.error('HLS.js error:', event, data))
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -171,7 +176,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
-  const [video, setVideo] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
@@ -213,6 +220,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const [streetView, setStreetView] = useState(false)
   const [retry, setRetry] = useState(0)
+  const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
     if (position) {
@@ -229,13 +237,18 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {device && (
               <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {video && <video
+                  {showVideo && <video
                       src={`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8?retry=${retry}`}
                       type="application/vnd.apple.mpegurl"
-                      onError={() => setRetry(retry + 1)}
+                      onError={(e) => {
+                        if (!isMac) {
+                          hls.loadSource(`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8?retry=${retry}`);
+                          hls.attachMedia(e.target);
+                        } else { console.error(e) }
+                        setRetry(retry + 1)
+                      }}
                       autoPlay controls style={{width: '100%'}}></video>}
-                  {!video &&
-                      ((deviceImage || (position && streetView)) ? (
+                  {!showVideo && ((deviceImage || (position && streetView)) ? (
                       <>
                         <div className={classes.imageCloseButton}>
                           {onClose && (<IconButton
@@ -329,15 +342,30 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <SendIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>}
-                    <Tooltip title={t('commandTitle')} placement="bottom">
+                    <Tooltip title={'Camera'} placement="bottom">
                       <IconButton
-                          onClick={() => {
-                            if (!video) { startStreaming(device.uniqueId).then() }
-                            else { stopStreaming(device.uniqueId).then() }
-                            setVideo(!video)
+                          onClick={async () => {
+                            if (!showVideo) {
+                              setLoading(true);
+                              try {
+                                const resp = await startStreaming(device.uniqueId).then(r => r.json())
+                                if (resp.msg !== 'success' || resp.data._code !== '100') {
+                                  setAlertMessage(resp.data._msg)
+                                  setLoading(false);
+                                  return;
+                                }
+                                setTimeout(() => {
+                                  setShowVideo(!showVideo);
+                                  setLoading(false);
+                                }, 9000)
+                              } catch (error) {
+                                setAlertMessage(error.message);
+                                setLoading(false);
+                              }
+                            } else { setShowVideo(!showVideo) }
                           }}
                       >
-                        <CameraIcon className={classes.icon}/>
+                        {loading ? <CircularProgress className={classes.icon} size={16}/> : <CameraIcon className={classes.icon}/>}
                       </IconButton>
                     </Tooltip>
                     {!disableActions && !deviceReadonly && <>
@@ -375,6 +403,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             itemId={deviceId}
             blocked={position && position.attributes.blocked}
             onResult={(removed) => handleRemove(removed)}
+        />
+        <Snackbar
+            className={classes.root}
+            open={alertMessage}
+            message={alertMessage}
+            onClose={() => setAlertMessage(null)}
+            autoHideDuration={snackBarDurationLongMs}
         />
       </>
   );
