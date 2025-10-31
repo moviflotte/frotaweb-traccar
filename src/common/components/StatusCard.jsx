@@ -212,6 +212,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   }, [navigate, position]);
 
   const [streetView, setStreetView] = useState(false)
+  const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     if (position) {
@@ -228,7 +229,11 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {device && (
               <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {video && <video src={`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8`} autoPlay controls style={{width: '100%'}}></video>}
+                  {video && <video
+                      src={`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8?retry=${retry}`}
+                      type="application/vnd.apple.mpegurl"
+                      onError={() => setRetry(retry + 1)}
+                      autoPlay controls style={{width: '100%'}}></video>}
                   {!video &&
                       ((deviceImage || (position && streetView)) ? (
                       <>
