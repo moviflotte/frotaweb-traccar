@@ -244,11 +244,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 <Card elevation={3} className={classes.card}>
                   {showVideo && <video src={src}
                       onError={(e) => {
+                        console.error(e)
                         if (!isMac) {
                           hls.loadSource(src);
                           hls.attachMedia(e.target);
-                        } else { console.error(e) }
-                        setRetry(retry + 1)
+                        }
+                        setTimeout(() => setRetry(retry + 1), 1000)
                       }}
                       autoPlay controls style={{width: '100%'}}></video>}
                   {!showVideo && ((deviceImage || (position && streetView)) ? (
