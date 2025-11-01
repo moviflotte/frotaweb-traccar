@@ -44,6 +44,7 @@ import Hls from 'hls.js';
 import {snackBarDurationLongMs} from "../util/duration";
 const hls = new Hls();
 hls.on(Hls.Events.ERROR, (event, data) => console.error('HLS.js error:', event, data))
+let count = 0
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -177,6 +178,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const [removing, setRemoving] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [channel, setChannel] = useState(0);
+  const [src, setSrc] = useState(0);
   const [alertMessage, setAlertMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -230,6 +233,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     }
   }, [position]);
 
+  useEffect(() =>
+      setSrc(`https://jimi-iothub-sec.fleetmap.io/${device.attributes.devicePassword?'live/':''}${channel}/${device.uniqueId}/hls.m3u8?retry=${retry}`), [device, channel, retry]);
 
   return (
       <>
@@ -237,12 +242,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {device && (
               <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {showVideo && <video
-                      src={`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8?retry=${retry}`}
-                      type="application/vnd.apple.mpegurl"
+                  {showVideo && <video src={src}
                       onError={(e) => {
                         if (!isMac) {
-                          hls.loadSource(`https://jimi-iothub-sec.fleetmap.io/1/${device.uniqueId}/hls.m3u8?retry=${retry}`);
+                          hls.loadSource(src);
                           hls.attachMedia(e.target);
                         } else { console.error(e) }
                         setRetry(retry + 1)
@@ -262,10 +265,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <a target="_blank"
                            href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer"
                            style={{position: 'relative', display: 'block'}}>
-                          <img
+                          <img alt=""
                               src={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
                                   : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
-                          />
+                           />
                           <div className={classes.imageHeader}>
                             <Typography variant="body1" color="white">
                               <b>{device.name.toUpperCase()}</b><br/>
@@ -348,8 +351,15 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                             if (!showVideo) {
                               setLoading(true);
                               try {
-                                const resp = await startStreaming(device.uniqueId).then(r => r.json())
-                                if (resp.msg !== 'success' || resp.data._code !== '100') {
+                                const _channel = device.attributes.devicePassword ? count++%2 : count++%2 + 1
+                                setChannel(_channel)
+                                const resp = await startStreaming(device.uniqueId, device.attributes.devicePassword, _channel).then(r => r.json())
+                                if (resp.data && /fail|error/i.test(resp.data._content)) {
+                                  setAlertMessage(resp.data._content)
+                                  setLoading(false);
+                                  return;
+                                }
+                                if (resp.data && resp.data._code !== '100') {
                                   setAlertMessage(resp.data._msg)
                                   setLoading(false);
                                   return;
@@ -357,7 +367,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                                 setTimeout(() => {
                                   setShowVideo(!showVideo);
                                   setLoading(false);
-                                }, 9000)
+                                }, 3000)
                               } catch (error) {
                                 setAlertMessage(error.message);
                                 setLoading(false);
