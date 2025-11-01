@@ -36,3 +36,5 @@ perl -pi -e 's|"/traccar"|"/"|' traccar-web/vite.config.js
 } > temp && mv temp traccar-web/src/index.jsx
 
 cat traccar-web/src/index.jsx
+mkdir -p functions/traccar
+cp -vr functions/api functions/traccar
