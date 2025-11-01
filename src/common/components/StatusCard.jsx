@@ -43,7 +43,6 @@ import {startStreaming} from "../util/cameras";
 import Hls from 'hls.js';
 import {snackBarDurationLongMs} from "../util/duration";
 const hls = new Hls();
-hls.on(Hls.Events.ERROR, (event, data) => console.error('HLS.js error:', event, data))
 let count = 0
 
 const useStyles = makeStyles((theme) => ({
@@ -224,6 +223,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [streetView, setStreetView] = useState(false)
   const [retry, setRetry] = useState(0)
   const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+  hls.on(Hls.Events.ERROR, (event, data) => {
+    console.error('HLS.js error:', event, data)
+    setRetry(retry + 1)
+  })
+
 
   useEffect(() => {
     if (position) {
