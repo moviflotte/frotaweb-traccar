@@ -1,5 +1,10 @@
 #!/bin/bash
-GIT_TRACE=1 git clone --depth 1 https://github.com/jcardus/traccar-web || true
+if [ ! -d "traccar-web" ]; then
+  curl -L -o traccar-web.zip https://github.com/jcardus/traccar-web/archive/refs/heads/master.zip
+  unzip -q traccar-web.zip
+  mv traccar-web-master traccar-web
+  rm traccar-web.zip
+fi
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
 
 perl -pi -e "s|'line-width': 2,|'line-width': 3,|g" traccar-web/src/map/MapRoutePath.js
