@@ -353,7 +353,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       </IconButton>
                     </Tooltip>}
                     <Tooltip title={'Camera'} placement="bottom">
-                      <IconButton
+                      {device.attributes.camera && <IconButton
                           onClick={async () => {
                             if (!showVideo) {
                               setLoading(true);
@@ -382,8 +382,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                             } else { setShowVideo(!showVideo) }
                           }}
                       >
-                        {loading ? <CircularProgress className={classes.icon} size={16}/> : <CameraIcon className={classes.icon}/>}
+                        loading ? <CircularProgress className={classes.icon} size={16}/> : <CameraIcon className={classes.icon}/>
                       </IconButton>
+                    }
                     </Tooltip>
                     {!disableActions && !deviceReadonly && <>
                       <IconButton
