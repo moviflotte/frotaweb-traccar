@@ -97,6 +97,8 @@ const PrintHeader = ({from, to}) => {
   </div>
 }
 
+const MAX_POINTS = 1000
+
 const RouteReportPage = () => {
   const navigate = useNavigate();
   const classes = useReportStyles();
@@ -214,7 +216,7 @@ const RouteReportPage = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {!loading ? items.slice(0, 8000)
+        {!loading ? items.slice(0, MAX_POINTS)
             .map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{devices[item.deviceId].name}</TableCell>
@@ -276,7 +278,7 @@ const RouteReportPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {!loading ? items.slice(0, 8000)
+                {!loading ? items.slice(0, MAX_POINTS)
                     .map((item) => (
                         <TableRow key={item.id}>
                           <TableCell className={classes.columnAction} padding="none">
