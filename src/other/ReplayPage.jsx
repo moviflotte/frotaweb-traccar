@@ -26,6 +26,7 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import MapScale from '../map/MapScale';
+import MapExport from '../map/MapExport';
 import {reducePositions} from "../common/util/positions";
 
 const useStyles = makeStyles((theme) => ({
@@ -170,6 +171,7 @@ const ReplayPage = () => {
         )}
       </MapView>
       <MapScale />
+      <MapExport deviceName={deviceName} from={from} to={to} positions={positions} />
       <MapCamera positions={positions} />
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
