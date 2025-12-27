@@ -1,8 +1,9 @@
 #!/bin/bash
-if [ ! -d "traccar-web" ]; then
-  curl -L -o traccar-web.zip https://github.com/jcardus/traccar-web/archive/refs/heads/master.zip
+if [ ! -d "traccar-web-$VERSION" ]; then
+  VERSION=6.6
+  curl -L -o traccar-web.zip "https://github.com/traccar/traccar-web/archive/refs/tags/v$VERSION".zip
   unzip -q traccar-web.zip
-  mv traccar-web-master traccar-web
+  mv "traccar-web-$VERSION" traccar-web
   rm traccar-web.zip
 fi
 curl https://raw.githubusercontent.com/entrack-plataforma/frotaweb/refs/heads/main/src/theme/palette.js > traccar-web/src/common/theme/palette.js
