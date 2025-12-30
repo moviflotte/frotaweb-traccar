@@ -15,6 +15,8 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  Snackbar,
+  CircularProgress,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -27,6 +29,7 @@ import GeofenceIcon from '../../resources/images/data/geofence.svg?react';
 import ReplayIcon from '../../resources/images/data/route.svg?react';
 import SendIcon from '../../resources/images/data/send.svg?react';
 import ShareIcon from '../../resources/images/data/share.svg?react';
+import CameraIcon from '../../resources/images/data/camera.svg?react';
 
 import { useTranslation } from './LocalizationProvider';
 import ConfirmDialog from './ConfirmDialog';
@@ -36,6 +39,11 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+import {startStreaming} from "../util/cameras";
+import Hls from 'hls.js';
+import {snackBarDurationLongMs} from "../util/duration";
+const hls = new Hls();
+let count = 0
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -83,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     width: '24px',
     height: '24px',
-    fill: theme.palette.secondary.main,
+    fill: theme.palette.primary.main,
   },
   success: {
     width: '24px',
@@ -168,6 +176,11 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [channel, setChannel] = useState(0);
+  const [src, setSrc] = useState(0);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
@@ -208,6 +221,14 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   }, [navigate, position]);
 
   const [streetView, setStreetView] = useState(false)
+  const [retry, setRetry] = useState(0)
+  const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+  hls.on(Hls.Events.ERROR, (event, data) => {
+    console.error('HLS.js error:', event, data)
+    setRetry(retry + 1)
+  })
+
 
   useEffect(() => {
     if (position) {
@@ -217,6 +238,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     }
   }, [position]);
 
+  useEffect(() =>
+      setSrc(`https://jimi-iothub-sec.fleetmap.io/${device.attributes.devicePassword?'live/':''}${channel}/${device.uniqueId}/hls.m3u8?retry=${retry}`), [device, channel, retry]);
 
   return (
       <>
@@ -224,7 +247,18 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           {device && (
               <Draggable disabled={!onClose}>
                 <Card elevation={3} className={classes.card}>
-                  {(deviceImage || (position && streetView)) ? (
+                  {showVideo && <video src={src}
+                      onError={(e) => {
+                        console.error(e)
+                        if (!isMac) {
+                          hls.loadSource(src);
+                          hls.attachMedia(e.target);
+                        } else {
+                          setTimeout(() => setRetry(retry + 1), 1000)
+                        }
+                      }}
+                      autoPlay controls style={{width: '100%'}}></video>}
+                  {!showVideo && ((deviceImage || (position && streetView)) ? (
                       <>
                         <div className={classes.imageCloseButton}>
                           {onClose && (<IconButton
@@ -238,10 +272,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <a target="_blank"
                            href={position && `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`} rel="noreferrer"
                            style={{position: 'relative', display: 'block'}}>
-                          <img
+                          <img alt=""
                               src={deviceImage ? `/api/media/${device.uniqueId}/${deviceImage}`
                                   : `https://street-view.entrack-plataforma.workers.dev/?heading=${position.course}&location=${position.latitude},${position.longitude}&size=288x144&return_error_code=true`}
-                          />
+                           />
                           <div className={classes.imageHeader}>
                             <Typography variant="body1" color="white">
                               <b>{device.name.toUpperCase()}</b><br/>
@@ -267,7 +301,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           <CloseIcon fontSize="small"/>
                         </IconButton>)}
                       </div>
-                  )}
+                  ))}
                   {position && (
                       <CardContent className={classes.content} sx={{padding: 1}}>
                         <Table size="small" classes={{root: classes.table}}>
@@ -318,6 +352,40 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         <SendIcon className={classes.icon} />
                       </IconButton>
                     </Tooltip>}
+                    <Tooltip title={'Camera'} placement="bottom">
+                      {device.attributes.camera && <IconButton
+                          onClick={async () => {
+                            if (!showVideo) {
+                              setLoading(true);
+                              try {
+                                const _channel = device.attributes.devicePassword ? count++%2 : count++%2 + 1
+                                setChannel(_channel)
+                                const resp = await startStreaming(device.uniqueId, device.attributes.devicePassword, _channel).then(r => r.json())
+                                if (resp.data && /fail|error/i.test(resp.data._content)) {
+                                  setAlertMessage(resp.data._content)
+                                  setLoading(false);
+                                  return;
+                                }
+                                if (resp.data && resp.data._code !== '100') {
+                                  setAlertMessage(resp.data._msg)
+                                  setLoading(false);
+                                  return;
+                                }
+                                setTimeout(() => {
+                                  setShowVideo(!showVideo);
+                                  setLoading(false);
+                                }, 3000)
+                              } catch (error) {
+                                setAlertMessage(error.message);
+                                setLoading(false);
+                              }
+                            } else { setShowVideo(!showVideo) }
+                          }}
+                      >
+                        loading ? <CircularProgress className={classes.icon} size={16}/> : <CameraIcon className={classes.icon}/>
+                      </IconButton>
+                    }
+                    </Tooltip>
                     {!disableActions && !deviceReadonly && <>
                       <IconButton
                           onClick={() => navigate(`/settings/device/${deviceId}`)}
@@ -353,6 +421,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             itemId={deviceId}
             blocked={position && position.attributes.blocked}
             onResult={(removed) => handleRemove(removed)}
+        />
+        <Snackbar
+            className={classes.root}
+            open={alertMessage}
+            message={alertMessage}
+            onClose={() => setAlertMessage(null)}
+            autoHideDuration={snackBarDurationLongMs}
         />
       </>
   );
